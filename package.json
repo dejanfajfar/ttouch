@@ -1,0 +1,26 @@
+{
+  "name": "ttouch",
+  "version": "1.0.0",
+  "description": "Create files easilly",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "ttouch": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dejanfajfar/ttouch.git"
+  },
+  "author": "Dejan Fajfar <dejan.fajfar.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dejanfajfar/ttouch/issues"
+  },
+  "homepage": "https://github.com/dejanfajfar/ttouch#readme",
+  "dependencies": {
+    "node-emoji": "^1.10.0",
+    "yargs": "^13.2.4"
+  }
+}
