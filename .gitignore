@@ -62,3 +62,6 @@ typings/
 
 # Jetbrains
 .idea/
+
+# local test
+test.sh

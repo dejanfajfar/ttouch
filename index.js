@@ -2,28 +2,28 @@
 "use strict";
 
 const header = require('./src/printHeader');
-const createFile = require('./src/createFile');
-const path = require('path');
-const handleError = require('./src/handleError');
+const controller = require('./src/controller');
 
 const argv = require('yargs')
     .option('base', {
         alias: 'f',
-        describe: 'The target folder for the created files'
+        describe: 'The target folder for the created file(s)'
+    })
+    .option('template', {
+        alias: 't',
+        describe: 'The used template for the given file(s)'
     })
     .demandCommand(1)
     .help()
     .argv;
 
+let options = {
+    commandBase: process.cwd(),
+    files: argv._,
+    base: argv.base,
+    template: argv.template
+};
+
+console.log(options);
 header();
-
-for(let file of argv._) {
-    handleError(
-        () => {
-
-            createFile({
-                target: path.resolve(process.cwd(), file)
-            });
-        }
-    );
-}
+controller(options);
