@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 "use strict";
 
-const header = require('./src/printHeader');
+const header = require('./src/helper/header');
 const controller = require('./src/controller');
 
 const argv = require('yargs')
-    .option('base', {
-        alias: 'f',
+    .option('dest', {
+        alias: 'd',
         describe: 'The target folder for the created file(s)'
     })
     .option('template', {
@@ -20,7 +20,7 @@ const argv = require('yargs')
 let options = {
     commandBase: process.cwd(),
     files: argv._,
-    base: argv.base,
+    dest: argv.dest,
     template: argv.template
 };
 

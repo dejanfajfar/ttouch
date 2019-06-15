@@ -18,9 +18,9 @@ const createFolder = folderName => {
     console.log(emoji.emojify(`:file_folder: ${chalk.grey(folderName)} ${chalk.bold.green('created')}`));
 };
 
-const determineCallingFolder = (options) => {
-    if (options.base) {
-        return path.resolve(process.cwd(), path.normalize(options.base));
+const determineDestinationFolder = (options) => {
+    if (options.dest) {
+        return path.resolve(process.cwd(), path.normalize(options.dest));
     } else {
         return process.cwd();
     }
@@ -43,7 +43,7 @@ const doesFolderExist = (folderPath) => {
 
 module.exports = {
     createFile: createFile,
-    determineCallingFolder: determineCallingFolder,
+    determineCallingFolder: determineDestinationFolder,
     combinePath: combinePath,
     analyseFilePath: analyseFilePath,
     doesFolderExist: doesFolderExist,

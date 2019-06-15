@@ -1,7 +1,7 @@
 'use strict';
 
-const fsf = require('./fileSystemFunctions');
-const template = require('./templateHelper');
+const fsf = require('./helper/fileSystem');
+const template = require('./helper/template');
 
 module.exports = (options) => {
 
