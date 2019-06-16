@@ -9,3 +9,5 @@ class TemplateNotFoundError extends Base {
         this.templateName = templateName;
     }
 }
+
+module.exports = TemplateNotFoundError;

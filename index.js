@@ -24,6 +24,5 @@ let options = {
     template: argv.template
 };
 
-console.log(options);
 header();
 controller(options);

@@ -5,7 +5,7 @@ const template = require('./helper/template');
 
 module.exports = (options) => {
 
-    const baseFolder = fsf.determineCallingFolder(options);
+    const baseFolder = fsf.determineDestinationFolder(options);
 
     for(let file of options.files) {
         let absolutePath = fsf.combinePath(baseFolder, file);
@@ -14,7 +14,7 @@ module.exports = (options) => {
         if(!fsf.doesFolderExist(folderName)){
             fsf.createFolder(folderName);
         }
-        fsf.createFile(absolutePath, fileName);
+        fsf.createFile(absolutePath);
 
         template({
             absolutePath: absolutePath,
