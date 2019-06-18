@@ -1,11 +1,16 @@
 "use strict";
 
+const TemplateNotFoundError = require('../errors/templateNotFoundError');
+
 const { spawnSync } = require( 'child_process' );
-const path = require('path');
 
 module.exports.getTemplate = templateName => {
-    module.paths.push(getNpmPath()); // push the global node folder to the search path
-    return module.require(templateName); // load module
+    try {
+        module.paths.push(getNpmPath()); // push the global node folder to the search path
+        return module.require(templateName); // load module
+    } catch (e) {
+        throw new TemplateNotFoundError(templateName);
+    }
 };
 
 const getNpmPath = () => {

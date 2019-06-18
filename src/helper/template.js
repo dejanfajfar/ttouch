@@ -37,6 +37,8 @@ module.exports = options => {
                 chalk.yellow('Try installing it with')
             } ${
                 chalk.bgYellowBright.black(' npm install -g ' + e.templateName + ' ')}`);
+            
+            return;
         }
         else {
             throw e;
