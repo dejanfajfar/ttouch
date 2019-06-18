@@ -5,6 +5,8 @@ ___
 
 # ttouch
 
+[![Join the chat at https://gitter.im/dejanfajfar/ttouch](https://badges.gitter.im/dejanfajfar/ttouch.svg)](https://gitter.im/dejanfajfar/ttouch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 > touch with templates
 
 ## Introduction
