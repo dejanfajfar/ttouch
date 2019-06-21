@@ -60,5 +60,5 @@ module.exports = options => {
 
 
 function expandTemplateName(templateName) {
-    return `ttt-${templateName}`;
+    return `@ttouch/${templateName}`;
 }
