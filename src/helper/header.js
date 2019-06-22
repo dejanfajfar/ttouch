@@ -1,10 +1,15 @@
 "use strict";
 
+const chalk = require('chalk');
+const application = require('../../package.json');
+
 const printHeader = () => {
     console.log(
-        '┌┬┐┌┬┐┌─┐┬ ┬┌─┐┬ ┬\n' +
-        ' │  │ │ ││ ││  ├─┤\n' +
-        ' ┴  ┴ └─┘└─┘└─┘┴ ┴\n')
+        chalk.yellow('┌┬┐┌┬┐┌─┐┬ ┬┌─┐┬ ┬\n') +
+        chalk.yellowBright(' │  │ │ ││ ││  ├─┤\n') +
+        chalk.white(' ┴  ┴ └─┘└─┘└─┘┴ ┴\n') +
+				chalk.grey(`ver.: ${application.version}`)
+		)
 };
 
 module.exports = printHeader;
