@@ -5,7 +5,7 @@ const header = require('./src/helper/header');
 const controller = require('./src/controller');
 
 const argv = require('yargs')
-    .option('dest', {
+    .option('destination', {
         alias: 'd',
         describe: 'The target folder for the created file(s)'
     })
@@ -20,7 +20,7 @@ const argv = require('yargs')
 let options = {
     commandBase: process.cwd(),
     files: argv._,
-    dest: argv.dest,
+    dest: argv.destination,
     template: argv.template
 };
 
