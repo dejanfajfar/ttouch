@@ -14,7 +14,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Changed the template naming scheme. Changed the template names from ```ttt-{templateName}``` to ```@ttouch/{templateName}```
 - Renamed the ```dest``` parameter to ```destination```
 
 
