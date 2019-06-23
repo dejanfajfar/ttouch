@@ -61,13 +61,13 @@ Will create a file names **test.sh** in the current directory.
 $ ttouch test.sh -t bash
 ```
 
-Will create a file named **test.sh** in the current directory and apply the **@ttouch/bash** template to the created file.
+Will create a file named **test.sh** in the current directory and apply the **ttt-bash** template to the created file.
 
 ```bash
 /home/me $ ttouch /dir1/dir2/test.sh -t bash
 ```
 
-Will create a file named **test.sh** in the directory **/home/me/dir1/dir2/test.sh** and apply the **@ttouch/bash** template to the created file.
+Will create a file named **test.sh** in the directory **/home/me/dir1/dir2/test.sh** and apply the **ttt-bash** template to the created file.
 
 The same could be achieved with:
 
@@ -85,15 +85,15 @@ But if you want to...
 $ ttouch file1.js file2.js -t jsclass
 ```
 
-Will create two files **file1.js** and **file2.js** in the current folder applying the **@ttouch/jsclass** template to both!
+Will create two files **file1.js** and **file2.js** in the current folder applying the **ttt-jsclass** template to both!
 
 ## Templates
 
 The core distinguishing thing of ttouch is the template stuff. Each template is an independent npm package. 
-A complete list of all published packages can be found by searching npmjs.org for all packages starting with _@ttouch_.
+A complete list of all published packages can be found by searching npmjs.org for all packages tagged with _ttouch_.
 
 The link below will give you the complete list 
 
-https://www.npmjs.com/search?q=%40ttouch
+https://www.npmjs.com/search?q=ttouch
 
 > I am working and accepting ideas and help with creating a better list.
