@@ -1,5 +1,10 @@
 "use strict";
 
+/**
+ * Implements the
+ * @type {module:path}
+ */
+
 const path = require('path');
 
 const TemplateNotFoundError = require('../errors/templateNotFoundError');

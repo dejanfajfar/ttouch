@@ -19,7 +19,8 @@ module.exports = (options) => {
         template({
             absolutePath: absolutePath,
             fileName: fileName,
-            template: options.template
+            template: options.template,
+			isVerbose: options.isVerbose
         });
     }
 
