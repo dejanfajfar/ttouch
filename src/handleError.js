@@ -1,13 +1,27 @@
 'use strict';
 
-const emoji = require('node-emoji');
+const printHelper = require('./helper/print');
 
-const handleError = func => {
+const TemplateNotFoundError = require('./errors/templateNotFoundError');
+
+module.exports.handleError = (isVerbose, func) => {
     try {
         func();
     } catch(e) {
-        console.error(emoji.emojify(`:bangbang: Something went wrong \n ${e}`));
-    }
-}
+		if (e instanceof TemplateNotFoundError) {
 
-module.exports = handleError;
+			printHelper.warning('Template could not be found');
+			printHelper.warning(`Try installing it with npm install -g ${e.templateName}`);
+
+			if (isVerbose) {
+				printHelper.error(e.message);
+			}
+		} else {
+			printHelper.error('There was a catastrophic error!');
+
+			if (isVerbose) {
+				printHelper.error(e.message);
+			}
+		}
+    }
+};

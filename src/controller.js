@@ -2,8 +2,9 @@
 
 const fsf = require('./helper/fileSystem');
 const template = require('./helper/template');
+const errorHandler = require('./handleError');
 
-module.exports = (options) => {
+function doTTouch(options) {
 
     const baseFolder = fsf.determineDestinationFolder(options);
 
@@ -16,13 +17,21 @@ module.exports = (options) => {
         }
         fsf.createFile(absolutePath);
 
-        template({
+        let renderedTemplate = template({
             absolutePath: absolutePath,
             fileName: fileName,
             template: options.template,
 			isVerbose: options.isVerbose
         });
+
+		fs.writeFileSync(options.absolutePath, renderedTemplate);
+
+		printHelper.onFileWritten(options.template, options.fileName)
     }
+}
 
-
+module.exports = options => {
+	errorHandler(options.isVerbose, () => {
+		doTTouch(options);
+	});
 };
