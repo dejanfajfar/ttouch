@@ -2,31 +2,31 @@
 
 const fsf = require('./helper/fileSystem');
 const template = require('./helper/template');
-const errorHandler = require('./handleError');
+const errorHandler = require('./errorHandler');
+const printHelper = require('./helper/print');
 
 function doTTouch(options) {
-
     const baseFolder = fsf.determineDestinationFolder(options);
 
     for(let file of options.files) {
-        let absolutePath = fsf.combinePath(baseFolder, file);
-        let { folderName, fileName } = fsf.analyseFilePath(absolutePath);
+        const absolutePath = fsf.combinePath(baseFolder, file);
+        const { folderName, fileName } = fsf.analyseFilePath(absolutePath);
 
         if(!fsf.doesFolderExist(folderName)){
             fsf.createFolder(folderName);
+            printHelper.onDirectoryCreated(folderName);
         }
-        fsf.createFile(absolutePath);
 
-        let renderedTemplate = template({
+        const renderedTemplate = template({
             absolutePath: absolutePath,
             fileName: fileName,
             template: options.template,
 			isVerbose: options.isVerbose
         });
 
-		fs.writeFileSync(options.absolutePath, renderedTemplate);
+		fsf.createFile(absolutePath, renderedTemplate);
 
-		printHelper.onFileWritten(options.template, options.fileName)
+		printHelper.onFileWritten(options.template, fileName);
     }
 }
 

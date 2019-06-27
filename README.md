@@ -49,6 +49,10 @@ The destination folder for the desired file(s)
 	
 The template name to use at the newly created files
 
+**-v, --verbose**
+
+Provides additional error information. Does not add additional output statements under normal operation!
+
 ### Examples
 
 ```bash
