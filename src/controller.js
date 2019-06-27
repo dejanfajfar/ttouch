@@ -10,11 +10,11 @@ function doTTouch(options) {
 
     for(let file of options.files) {
         const absolutePath = fsf.combinePath(baseFolder, file);
-        const { folderName, fileName } = fsf.analyseFilePath(absolutePath);
+        const { directoryPath, fileName } = fsf.analyseFilePath(absolutePath);
 
-        if(!fsf.doesFolderExist(folderName)){
-            fsf.createFolder(folderName);
-            printHelper.onDirectoryCreated(folderName);
+        if(!fsf.doesFolderExist(directoryPath)){
+            fsf.createDirectory(directoryPath);
+            printHelper.onDirectoryCreated(directoryPath);
         }
 
         const renderedTemplate = template({

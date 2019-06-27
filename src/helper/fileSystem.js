@@ -8,8 +8,8 @@ module.exports.createFile = (absolutePath, content) => {
     fs.writeFileSync(absolutePath, content);
 };
 
-module.exports.createFolder = folderName => {
-    fs.mkdirSync(folderName, {recursive: true});
+module.exports.createDirectory = directoryPath => {
+    fs.mkdirSync(directoryPath, {recursive: true});
 };
 
 module.exports.determineDestinationFolder = (options) => {
@@ -25,10 +25,10 @@ module.exports.combinePath = (basePath, file) => {
 };
 
 module.exports.analyseFilePath = (filePath) => {
-    let folderName = path.dirname(filePath);
+    let directoryPath = path.dirname(filePath);
     let fileName = path.basename(filePath);
 
-    return {folderName, fileName};
+    return {directoryPath, fileName};
 };
 
 module.exports.doesFolderExist = (folderPath) => {

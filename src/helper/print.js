@@ -21,6 +21,6 @@ module.exports.onFileWritten = (template, fileName) => {
 	console.log(`File ${chalk.grey(fileName)} ${chalk.bold.green('created')}`);
 };
 
-module.exports.onDirectoryCreated = folderPath => {
-	console.log(`Folder ${chalk.grey(folderPath)} ${chalk.bold.green('created')}`);
+module.exports.onDirectoryCreated = directoryPath => {
+	console.log(`Folder ${chalk.grey(directoryPath)} ${chalk.bold.green('created')}`);
 };
