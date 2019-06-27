@@ -9,6 +9,10 @@ const argv = require('yargs')
         alias: 'd',
         describe: 'The target folder for the created file(s)'
     })
+	.option('verbose', {
+		alias: 'v',
+		describe: 'Output additional internal information'
+	})
     .option('template', {
         alias: 't',
         describe: 'The used template for the given file(s)'
@@ -21,7 +25,8 @@ let options = {
     commandBase: process.cwd(),
     files: argv._,
     dest: argv.destination,
-    template: argv.template
+    template: argv.template,
+	isVerbose: argv.verbose
 };
 
 header();

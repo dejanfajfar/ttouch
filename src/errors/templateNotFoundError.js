@@ -3,10 +3,11 @@
 const Base = require('./tTouchError');
 
 class TemplateNotFoundError extends Base {
-    constructor(templateName) {
+    constructor(templateName, innerError) {
         super(`Desired template ${templateName} not found`);
 
         this.templateName = templateName;
+        this.innerError = innerError;
     }
 }
 

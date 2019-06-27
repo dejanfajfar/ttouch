@@ -2,26 +2,36 @@
 
 const fsf = require('./helper/fileSystem');
 const template = require('./helper/template');
+const errorHandler = require('./errorHandler');
+const printHelper = require('./helper/print');
 
-module.exports = (options) => {
-
+function doTTouch(options) {
     const baseFolder = fsf.determineDestinationFolder(options);
 
     for(let file of options.files) {
-        let absolutePath = fsf.combinePath(baseFolder, file);
-        let { folderName, fileName } = fsf.analyseFilePath(absolutePath);
+        const absolutePath = fsf.combinePath(baseFolder, file);
+        const { directoryPath, fileName } = fsf.analyseFilePath(absolutePath);
 
-        if(!fsf.doesFolderExist(folderName)){
-            fsf.createFolder(folderName);
+        if(!fsf.doesFolderExist(directoryPath)){
+            fsf.createDirectory(directoryPath);
+            printHelper.onDirectoryCreated(directoryPath);
         }
-        fsf.createFile(absolutePath);
 
-        template({
+        const renderedTemplate = template({
             absolutePath: absolutePath,
             fileName: fileName,
-            template: options.template
+            template: options.template,
+			isVerbose: options.isVerbose
         });
+
+		fsf.createFile(absolutePath, renderedTemplate);
+
+		printHelper.onFileWritten(options.template, fileName);
     }
+}
 
-
+module.exports = options => {
+	errorHandler(options.isVerbose, () => {
+		doTTouch(options);
+	});
 };

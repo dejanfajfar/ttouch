@@ -1,64 +1,35 @@
 'use strict';
 
-const chalk = require('chalk');
-const emoji = require('node-emoji');
-const fs = require('fs');
 const npmHelper = require('./npm');
 
-const TemplateNotFoundError = require('../errors/templateNotFoundError');
-
+const TemplateInvalidError = require('../errors/templateInvalidError');
+const TemplateRenderingError = require('../errors/templateRenderingError');
 
 module.exports = options => {
     if (!options.template) {
         return;
     }
 
-    let template = options => "";
+    const template = npmHelper.getTemplate(expandTemplateName(options.template));
 
-    try {
-        // We could make the getTemplate not break and fallback to the default function. But the information is too
-        // important for the user at this point and we have to gracefully fail at this point!
-       template = npmHelper.getTemplate(expandTemplateName(options.template));
-    } catch (e) {
-        if (e instanceof TemplateNotFoundError){
+    if (typeof template !== 'function') {
+		throw new TemplateInvalidError(expandTemplateName(options.template));
+	}
 
-            console.log(`${
-                emoji.emojify(':warning:')
-            } ${
-                chalk.yellow('Template')
-            } ${
-                chalk.bold(options.template)
-            } ${
-                chalk.yellow('could not be found')}`);
-
-            console.log(`${
-                emoji.emojify(':warning:')
-            } ${
-                chalk.yellow('Try installing it with')
-            } ${
-                chalk.bgYellowBright.black(' npm install -g ' + e.templateName + ' ')}`);
-            
-            return;
-        }
-        else {
-            throw e;
-        }
-    }
-
-    fs.writeFileSync(options.absolutePath, template(options));
-
-    console.log(`${
-        emoji.emojify(':pencil2:')
-    } template ${
-        chalk.bold.cyan(options.template)
-    } to file ${
-        chalk.grey(options.fileName)
-    } ${
-        chalk.bold.green('done')
-    }`);
+	try {
+		 return template(options);
+	} catch (e) {
+    	throw new TemplateRenderingError(options.template, e);
+	}
 };
 
-
+/**
+ * Expands the template name into a package name that is then loaded
+ * @param templateName
+ * The template name provided by the user through input parameter
+ * @returns {string}
+ * The package name that is then loaded
+ */
 function expandTemplateName(templateName) {
     return `ttt-${templateName}`;
 }

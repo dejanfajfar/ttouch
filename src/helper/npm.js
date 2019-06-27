@@ -1,5 +1,10 @@
 "use strict";
 
+/**
+ * Implements the
+ * @type {module:path}
+ */
+
 const path = require('path');
 
 const TemplateNotFoundError = require('../errors/templateNotFoundError');
@@ -11,7 +16,7 @@ module.exports.getTemplate = templateName => {
 		module.paths.push(getNpmPath()); // push the global node folder to the search path
 		return module.require(templateName); // load module
 	} catch (e) {
-		throw new TemplateNotFoundError(templateName, e.message);
+		throw new TemplateNotFoundError(templateName, e);
 	}
 };
 
@@ -21,7 +26,7 @@ const getNpmPath = () => {
 		shell: true
 	});
 
-	let rootDir = path.dirname(rootPath.stdout.toString()) // Get a OS specific path to the npm global library
+	let rootDir = path.dirname(rootPath.stdout.toString()); // Get a OS specific path to the npm global library
 
 	return path.join(rootDir, 'node_modules');
 };
