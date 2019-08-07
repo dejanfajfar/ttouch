@@ -11,7 +11,7 @@ module.exports.error = message => {
 };
 
 module.exports.info = message => {
-	console.error(`${chalk.blue('INF:')} ${message}`);
+	console.log(`${chalk.blue('INF:')} ${message}`);
 }
 
 module.exports.onFileWritten = (template, fileName) => {

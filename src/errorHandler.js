@@ -26,7 +26,7 @@ module.exports = (isVerbose, func) => {
 				printHelper.error(e.innerError.message);
 			}
 
-			printHelper.info('The file has not been written');
+			printHelper.info('The file has been created but left empty');
 
 		} else if (e instanceof TemplateInvalidError) {
 			printHelper.error('Template found but is invalid!');
