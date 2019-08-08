@@ -1,9 +1,9 @@
-Still not fully deployed!
 
-___
 [![Build Status](https://travis-ci.org/dejanfajfar/ttouch.svg?branch=release)](https://travis-ci.org/dejanfajfar/ttouch)
 [![npm](https://img.shields.io/npm/v/ttouch.svg)](https://www.npmjs.com/package/ttouch)
 [![Gitter](https://img.shields.io/gitter/room/dejanfajfar/ttouch.svg)](https://gitter.im/dejanfajfar/ttouch)
+
+[![NPM](https://nodei.co/npm/ttouch.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ttouch/)
 
 ![](https://raw.githubusercontent.com/dejanfajfar/ttouch/master/misc/header_image.jpg)
 # ttouch
@@ -12,18 +12,23 @@ ___
 
 ## Introduction
 
-One of my most used tools in a shell is the humble ```touch```. It is great but I always missed some things:
+Creating new files is easy. Creating a new file and staring at an empty file you have to fill is not so great. 
 
-* The ability to create files using templates
-* No native touch on windows...the console is not so great ether.
+Writting programs creating new files is something that happens quite often. And everytime you have to go into the file and fill it out with boilerplate code that is the same in every file of the same _type_. 
 
-I must confess that the later is getting better, but still
+So I wanted something that:
 
-To try and _fix_ this I give you ```ttouch```
+* Creates file prefilled with the desired boilerplate code
+* Automatically creates missing directories, much like ```mkdir -p```
+* Cross platform. So that I can use the same tool on every system
+
+Because such a tool was not to be found I build one.
+
+Allow me to present to you ```ttouch```
 
 ## Installation
 
-In order to use ttouch simply install it globally with the following:
+Beeing a simple
 
 ```bash
 $ npm install -g ttouch
@@ -41,17 +46,11 @@ $ ttouch <filePath> [options]
 
 Creates a new file at the location described, optionally with the template content selected.
 
-**-d, --destination**
-
-The destination folder for the desired file(s)
-
-**-t, --template**
-	
-The template name to use at the newly created files
-
-**-v, --verbose**
-
-Provides additional error information. Does not add additional output statements under normal operation!
+| Short | Long | Description |
+| --- | --- | --- |
+| -d | --destination | The destination folder for the desired file(s) |
+| -t | --template | The template name to use at the newly created files |
+| -v | --verbose | Provides additional error information. Does not add additional output statements under normal operation! |
 
 ### Examples
 
@@ -59,7 +58,7 @@ Provides additional error information. Does not add additional output statements
 $ ttouch test.sh
 ```
 
-Will create a file names **test.sh** in the current directory.
+Will create an _empty_ file names **test.sh** in the current directory.
 
 ```bash
 $ ttouch test.sh -t bash
@@ -79,17 +78,15 @@ The same could be achieved with:
 /home/me $ ttouch test.sh -t bash -d dir1/dir2
 ```
 
-### Experimental
+### Multiple files
 
-Theoretically ttouch supports creating more than one file at once. I am still working on the feature so use at your own **risk**.
-
-But if you want to...
+Another feature of ```ttouch``` is to create multiple files at the same time. This is usefull if you have to create multiple files of the same type, like a bunch of javascrip class definitions.
 
 ```bash
-$ ttouch file1.js file2.js -t jsclass
+$ ttouch student.js teacher.js -t jsclass
 ```
 
-Will create two files **file1.js** and **file2.js** in the current folder applying the **ttt-jsclass** template to both!
+Will create two files **student.js** and **teacher.js** in the current folder applying the **ttt-jsclass** template to both!
 
 ## Templates
 
@@ -101,3 +98,7 @@ The link below will give you the complete list
 https://www.npmjs.com/search?q=ttouch
 
 > I am working and accepting ideas and help with creating a better list.
+
+## Next steps
+
+Go to the wiki for more information...
