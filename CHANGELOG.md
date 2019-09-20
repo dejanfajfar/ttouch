@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [unreleased]
+### Added
+
+- Gist template type
+
+### Changed
+
+- The last file in the file list can now be a template identifier
+
+### Fixed
+
+- If no template provided the the file contains the string "undefined"
+
 ## [1.0.0]
 ### Fixed
 
