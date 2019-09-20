@@ -7,7 +7,7 @@ const TemplateRenderingError = require('../errors/templateRenderingError');
 
 module.exports = options => {
     if (!options.template) {
-        return;
+        return '';
     }
 
     const template = npmHelper.getTemplate(expandTemplateName(options.template));
@@ -17,7 +17,7 @@ module.exports = options => {
 	}
 
 	try {
-		 return template(options);
+		return template(options);
 	} catch (e) {
     	throw new TemplateRenderingError(options.template, e);
 	}

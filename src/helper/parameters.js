@@ -1,5 +1,9 @@
 "use strict";
 
+const camelCase = require('camelcase');
+const path = require('path');
+const fsf = require('./fileSystem');
+
 module.exports.isGistId = (parameter) => {
     return /^(g|G):.*$/.test(parameter);
 }
@@ -31,3 +35,14 @@ module.exports.parseRepository = (parameter) => {
         repoName: parameterSplit[1]
     };
 }
+
+module.exports.expandFileName = (fileName) => {
+    let foo = fsf.getFileName(fileName);
+
+    return {
+        name: fileName,
+        upperCaseCamelCase: camelCase(foo, {pascalCase: true}),
+        lowerCaseCamelCase: camelCase(foo, {pascalCase: false}),
+        extension: fsf.getFileExtension(fileName)
+    }
+};

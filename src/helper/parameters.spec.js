@@ -42,4 +42,14 @@ describe('parameters', () => {
             expect(repositoryParts.repoName).to.be.equal('ttouch');
         });
     });
+
+    describe('expandFileName', () => {
+        it('Given myFile.txt it correctly expands the file name', () => {
+            let expandedFileName = parameters.expandFileName('myFile.txt');
+
+            expect(expandedFileName.name).to.be.equal('myFile.txt');
+            expect(expandedFileName.lowerCaseCamelCase).to.be.equal('myFile');
+            expect(expandedFileName.upperCaseCamelCase).to.be.equal('MyFile')
+        });
+    });
 });

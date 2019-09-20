@@ -4,11 +4,16 @@ const fsf = require('./helper/fileSystem');
 const template = require('./helper/template');
 const errorHandler = require('./errorHandler');
 const printHelper = require('./helper/print');
+const parameterHelper = require('./helper/parameters');
 
-function doTTouch(options) {
-    const baseFolder = fsf.determineDestinationFolder(options);
+/**
+ * Main method that actually executes all the work
+ * @param {*} parameters The parameters entered by the user
+ */
+function doTTouch(parameters) {
+    const baseFolder = fsf.determineDestinationFolder(parameters);
 
-    for(let file of options.files) {
+    for(let file of parameters.files) {
         const absolutePath = fsf.combinePath(baseFolder, file);
         const { directoryPath, fileName } = fsf.analyseFilePath(absolutePath);
 
@@ -20,18 +25,26 @@ function doTTouch(options) {
         const renderedTemplate = template({
             absolutePath: absolutePath,
             fileName: fileName,
-            template: options.template,
-			isVerbose: options.isVerbose
+            template: parameters.template,
+			isVerbose: parameters.isVerbose
         });
 
 		fsf.createFile(absolutePath, renderedTemplate);
 
-		printHelper.onFileWritten(options.template, fileName);
+		printHelper.onFileWritten(parameters.template, fileName);
     }
 }
 
-module.exports = options => {
-	errorHandler(options.isVerbose, () => {
-		doTTouch(options);
+function expandParameters(userParameters){
+    let expandedParameters = {};
+
+    expandedParameters.files = userParameters.files.map(file => parameterHelper.expandFileName(fileName));
+
+    return expandParameters;
+}
+
+module.exports = parameters => {
+	errorHandler(parameters.isVerbose, () => {
+		doTTouch(parameters);
 	});
 };

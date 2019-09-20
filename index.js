@@ -21,13 +21,11 @@ const argv = require('yargs')
     .help()
     .argv;
 
-let options = {
+header();
+controller({
     commandBase: process.cwd(),
     files: argv._,
     dest: argv.destination,
     template: argv.template,
 	isVerbose: argv.verbose
-};
-
-header();
-controller(options);
+});

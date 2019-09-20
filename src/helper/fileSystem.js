@@ -34,3 +34,11 @@ module.exports.analyseFilePath = (filePath) => {
 module.exports.doesFolderExist = (folderPath) => {
     return fs.existsSync(folderPath);
 };
+
+module.exports.getFileName = (filePath) => {
+    return path.basename(filePath, this.getFileExtension(filePath));
+};
+
+module.exports.getFileExtension = (filePath) => {
+	return path.extname(filePath);
+};
