@@ -38,14 +38,15 @@ function expandParameters(userParameters){
 
     let inlineTemplate = userParameters.files
     .map(parameterHelper.analyseFileNames)
-    .filter(file => !file.isFilePath);
+	.filter(file => !file.isFilePath);
 
     let expandedFilesData = userParameters.files
     .map(parameterHelper.applyDestinationPath(destinationPath))
     .map(parameterHelper.analyseFileNames)
     .filter(file => file.isFilePath)
     .map(parameterHelper.expandFileName)
-    .map(parameterHelper.inlineContextData(userParameters));
+	.map(parameterHelper.inlineContextData(userParameters))
+	.map(parameterHelper.applyInlineTemplate(inlineTemplate));
 
     return expandedFilesData;
 }

@@ -11,10 +11,10 @@ describe('controller', () => {
         const expandParameters = controller.__get__('expandParameters');
         const userParameters = {
             commandBase: '/user/testFolder',
-            files: ['myText.txt', 'yourText.txt', 'r:userName/repoName'],
+            files: ['myText.txt', '../yourText.txt', 'r:userName/repoName'],
             dest: '.',
-            template: 'myTemplate',
-            isVerbose: true
+			isVerbose: true,
+			timeStamp: new Date()
         };
 
         it('foo', () => {

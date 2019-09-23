@@ -48,7 +48,7 @@ module.exports.expandFileName = (item, index, origin) => {
     }
 };
 
-module.exports.applyDestinationPath = destinationPath => { 
+module.exports.applyDestinationPath = destinationPath => {
     return (path, index, origin) => {
         return {
             origin: path,
@@ -77,10 +77,29 @@ module.exports.analyseFileNames = (fileName, index, origin) => {
 
 module.exports.inlineContextData = (contextData) => {
     return (item, index, origin) => {
-        
         return {
             ...item,
-            isVerbose: contextData.isVerbose
+			isVerbose: contextData.isVerbose,
+			template: contextData.template,
+			timeStamp: contextData.timeStamp
         };
     };
+}
+
+module.exports.applyInlineTemplate = (inlineTemplateData) => {
+	return (item, index, origin) => {
+		let retVal = {
+			...item
+		};
+
+		if (inlineTemplateData instanceof Array){
+			let inlineTemplate = inlineTemplateData[0];
+
+			if(inlineTemplate.origin){
+				retVal.template = item.template || inlineTemplate.origin;
+			}
+		}
+
+		return retVal;
+	};
 }

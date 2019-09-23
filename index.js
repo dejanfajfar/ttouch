@@ -27,5 +27,6 @@ controller({
     files: argv._,
     dest: argv.destination,
     template: argv.template,
-	isVerbose: argv.verbose
+	isVerbose: argv.verbose,
+	timeStamp: new Date()
 });

@@ -79,7 +79,8 @@ describe('parameters', () => {
         it('Inlined only predefined properties of the context', () => {
             let contextData = {
                 contextProperty: 'test',
-                isVerbose: true
+				isVerbose: true,
+				template: 'testTemplate'
             };
 
             let item = {
@@ -90,7 +91,8 @@ describe('parameters', () => {
 
             expect(inlinedObject).to.have.property('isVerbose');
             expect(inlinedObject).to.not.have.property('contextProperty');
-            expect(inlinedObject).to.have.property('name');
+			expect(inlinedObject).to.have.property('name');
+			expect(inlinedObject).to.have.property('template');
         });
     });
 
@@ -162,5 +164,40 @@ describe('parameters', () => {
             expect(analysedFile.isRepository).to.be.false;
             expect(analysedFile.isFilePath).to.be.true;
         });
-    });
+	});
+
+	describe('applyInlineTemplate', () => {
+		it('If template set explicitly then not overridden by inline template', () => {
+			let fileData = {
+				fileProperty: 'someText',
+				template: 'testTemplate'
+			};
+
+			let appliedTemplateData = parameters.applyInlineTemplate([{
+				origin: 'inlineTemplate'
+			}])(fileData);
+
+			expect(appliedTemplateData.template).to.be.equal('testTemplate');
+		});
+		it('If template not set explicitly then overridden by inline template', () => {
+			let fileData = {
+				fileProperty: 'someText'
+			};
+
+			let appliedTemplateData = parameters.applyInlineTemplate([{
+				origin: 'inlineTemplate'
+			}])(fileData);
+
+			expect(appliedTemplateData.template).to.be.equal('inlineTemplate');
+		});
+		it('If template not set explicitly and no inline template set then template not set', () => {
+			let fileData = {
+				fileProperty: 'someText'
+			};
+
+			let appliedTemplateData = parameters.applyInlineTemplate([{}])(fileData);
+
+			expect(appliedTemplateData).to.not.have.property('template');
+		});
+	});
 });
