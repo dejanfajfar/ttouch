@@ -11,8 +11,6 @@ const parameterHelper = require('./helper/parameters');
  * @param {*} parameters The parameters entered by the user
  */
 function doTTouch(parameters) {
-    const baseFolder = fsf.determineDestinationFolder(parameters);
-
     for(let file of parameters.files) {
         const absolutePath = fsf.combinePath(baseFolder, file);
         const { directoryPath, fileName } = fsf.analyseFilePath(absolutePath);
@@ -36,11 +34,20 @@ function doTTouch(parameters) {
 }
 
 function expandParameters(userParameters){
-    let expandedParameters = {};
+    const destinationPath = fsf.determineDestinationFolder(userParameters);
 
-    expandedParameters.files = userParameters.files.map(file => parameterHelper.expandFileName(fileName));
+    let inlineTemplate = userParameters.files
+    .map(parameterHelper.analyseFileNames)
+    .filter(file => !file.isFilePath);
 
-    return expandParameters;
+    let expandedFilesData = userParameters.files
+    .map(parameterHelper.applyDestinationPath(destinationPath))
+    .map(parameterHelper.analyseFileNames)
+    .filter(file => file.isFilePath)
+    .map(parameterHelper.expandFileName)
+    .map(parameterHelper.inlineContextData(userParameters));
+
+    return expandedFilesData;
 }
 
 module.exports = parameters => {

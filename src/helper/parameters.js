@@ -9,7 +9,7 @@ module.exports.isGistId = (parameter) => {
 }
 
 module.exports.isRepository = (parameter) => {
-    return /^\w*\/\w*$/.test(parameter);
+    return /^(r|R):\w*\/\w*$/.test(parameter);
 }
 
 module.exports.parseGistId = (parameter) => {
@@ -21,28 +21,66 @@ module.exports.parseGistId = (parameter) => {
 }
 
 module.exports.parseRepository = (parameter) => {
-    if (!this.isRepository(parameter)) {
-        return {
-            userName: '',
-            repoName: ''
-        }
+    if (!this.isRepository(parameter)){
+        return parameter;
     }
 
-    let parameterSplit = parameter.split('/');
-
-    return {
-        userName: parameterSplit[0],
-        repoName: parameterSplit[1]
-    };
+    return parameter.split(':').pop();
 }
 
-module.exports.expandFileName = (fileName) => {
-    let foo = fsf.getFileName(fileName);
+module.exports.expandFileName = (item, index, origin) => {
+    let fileNameWithoutExtension = fsf.getFileName(item.origin);
+    let fileExtension = fsf.getFileExtension(item.origin);
+    let absolutePath = fsf.combinePath(item.destinationPath, item.origin);
+    let { directoryPath, fileName } = fsf.analyseFilePath(absolutePath);
 
     return {
-        name: fileName,
-        upperCaseCamelCase: camelCase(foo, {pascalCase: true}),
-        lowerCaseCamelCase: camelCase(foo, {pascalCase: false}),
-        extension: fsf.getFileExtension(fileName)
+        ...item,
+        name: {
+            name: fileNameWithoutExtension,
+            upperCaseCamelCase: camelCase(fileNameWithoutExtension, {pascalCase: true}),
+            lowerCaseCamelCase: camelCase(fileNameWithoutExtension, {pascalCase: false})
+        },
+        fullFileName: fileName,
+        containingFolder: directoryPath,
+        fileExtension: fileExtension,
+        absolutePath: absolutePath
     }
 };
+
+module.exports.applyDestinationPath = destinationPath => { 
+    return (path, index, origin) => {
+        return {
+            origin: path,
+            destinationPath: destinationPath
+        };
+    }
+}
+
+module.exports.analyseFileNames = (fileName, index, origin) => {
+
+    if(!fileName.origin) {
+        fileName = {
+            origin: fileName
+        };
+    }
+
+    let originalName = fileName.origin;
+
+    return {
+        ...fileName,
+        isGist: this.isGistId(originalName),
+        isRepository: this.isRepository(originalName),
+        isFilePath: !this.isGistId(originalName) && !this.isRepository(originalName)
+    }
+}
+
+module.exports.inlineContextData = (contextData) => {
+    return (item, index, origin) => {
+        
+        return {
+            ...item,
+            isVerbose: contextData.isVerbose
+        };
+    };
+}
