@@ -24,3 +24,13 @@
     timeStamp: 2019-09-24T06:38:29.510Z 
 } 
 ```
+
+## template types
+
+### GitHub gist
+
+g:{gistId}
+
+### GitHub repository
+
+r:{username/reponame}
