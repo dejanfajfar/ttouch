@@ -1,32 +1,8 @@
 "use strict";
 
 const camelCase = require('camelcase');
-const path = require('path');
 const fsf = require('./fileSystem');
-
-module.exports.isGistId = (parameter) => {
-    return /^(g|G):.*$/.test(parameter);
-}
-
-module.exports.isRepository = (parameter) => {
-    return /^(r|R):\w*\/\w*$/.test(parameter);
-}
-
-module.exports.parseGistId = (parameter) => {
-    if (!this.isGistId(parameter)){
-        return parameter;
-    }
-
-    return parameter.split(':').pop();
-}
-
-module.exports.parseRepository = (parameter) => {
-    if (!this.isRepository(parameter)){
-        return parameter;
-    }
-
-    return parameter.split(':').pop();
-}
+const templates = require('./template');
 
 module.exports.expandFileName = (item, index, origin) => {
     let fileNameWithoutExtension = fsf.getFileName(item.origin);
@@ -69,9 +45,9 @@ module.exports.analyseFileNames = (fileName, index, origin) => {
 
     return {
         ...fileName,
-        isGist: this.isGistId(originalName),
-        isRepository: this.isRepository(originalName),
-        isFilePath: !this.isGistId(originalName) && !this.isRepository(originalName)
+        isGist: templates.isGistId(originalName),
+        isRepository: templates.isRepository(originalName),
+        isFilePath: !templates.isGistId(originalName) && !templates.isRepository(originalName)
     }
 }
 
