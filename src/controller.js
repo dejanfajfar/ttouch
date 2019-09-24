@@ -1,16 +1,28 @@
 'use strict';
 
 const fsf = require('./helper/fileSystem');
-const template = require('./helper/template');
 const errorHandler = require('./errorHandler');
-const printHelper = require('./helper/print');
 const parameterHelper = require('./helper/parameters');
+
+const createDestinationFolder = require('./parts/createDestinationFolder');
+const printStart = require('./parts/printFileJobStartInfo');
+const printStop = require('./parts/printFileJobStopInfo');
+const createFile = require('./parts/createFile');
 
 /**
  * Main method that actually executes all the work
  * @param {*} parameters The parameters entered by the user
  */
-function doTTouch(parameters) {
+function doTTouch(contexts) {
+    Promise.all(contexts.map(context => {
+        Promise.resolve()
+        .then(printStart(context))
+        .then(createDestinationFolder(context))
+        .then(createFile(context))
+        .then(printStop(context));
+    }))
+
+    /*
     for(let file of parameters.files) {
         const absolutePath = fsf.combinePath(baseFolder, file);
         const { directoryPath, fileName } = fsf.analyseFilePath(absolutePath);
@@ -31,6 +43,7 @@ function doTTouch(parameters) {
 
 		printHelper.onFileWritten(parameters.template, fileName);
     }
+    */
 }
 
 function expandParameters(userParameters){
@@ -53,6 +66,6 @@ function expandParameters(userParameters){
 
 module.exports = parameters => {
 	errorHandler(parameters.isVerbose, () => {
-		doTTouch(parameters);
+		doTTouch(expandParameters(parameters));
 	});
 };

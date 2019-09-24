@@ -3,9 +3,9 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports.createFile = (absolutePath, content) => {
+module.exports.createFile = (absolutePath) => {
 
-    fs.writeFileSync(absolutePath, content);
+    fs.writeFileSync(absolutePath, '');
 };
 
 module.exports.createDirectory = directoryPath => {

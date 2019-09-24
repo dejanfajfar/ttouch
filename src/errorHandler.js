@@ -8,7 +8,8 @@ const TemplateInvalidError = require('./errors/templateInvalidError');
 
 module.exports = (isVerbose, func) => {
     try {
-        func();
+		func();
+		process.exit();
     } catch(e) {
 		if (e instanceof TemplateNotFoundError) {
 			printHelper.error('Template could not be found');
@@ -39,7 +40,8 @@ module.exports = (isVerbose, func) => {
 			printHelper.error('There was a catastrophic error!');
 
 			if (isVerbose) {
-				printHelper.error(e.message);
+				printHelper.error(e);
+				printHelper.error(e.stack);
 			}
 		}
     }
