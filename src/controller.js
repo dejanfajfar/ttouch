@@ -4,7 +4,7 @@ const fsf = require('./helper/fileSystem');
 const errorHandler = require('./errorHandler');
 const parameterHelper = require('./helper/parameters');
 
-const TemplateManager = require('./templates/templateManager');
+const TemplateStore = require('./templates/templateStore');
 
 const createDestinationFolder = require('./parts/createDestinationFolder');
 const printStart = require('./parts/printFileJobStartInfo');
@@ -16,7 +16,7 @@ const createFile = require('./parts/createFile');
  * @param {*} parameters The parameters entered by the user
  */
 function doTTouch(contexts) {
-	const templateManager = new TemplateManager();
+	const templateStore = new TemplateStore();
 
     Promise.all(contexts.map(context => {
         Promise.resolve()
