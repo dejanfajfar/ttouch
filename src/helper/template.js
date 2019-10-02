@@ -1,10 +1,5 @@
 'use strict';
 
-const npmHelper = require('./npm');
-
-const TemplateInvalidError = require('../errors/templateInvalidError');
-const TemplateRenderingError = require('../errors/templateRenderingError');
-
 /*module.exports = options => {
     if (!options.template) {
         return '';
@@ -23,26 +18,42 @@ const TemplateRenderingError = require('../errors/templateRenderingError');
 	}
 };*/
 
+const TYPE_GIST = 'gist';
+const TYPE_REPOSITORY = 'repo';
+
 /**
- * Expands the template name into a package name that is then loaded
- * @param templateName
- * The template name provided by the user through input parameter
- * @returns {string}
- * The package name that is then loaded
+ * 
+ * @param {string} templateName - The name of the template selected
+ * @returns {string} The npm package name containing the template string
  */
 function expandTemplateName(templateName) {
     return `ttt-${templateName}`;
 }
 
-module.exports.isGistId = (templateIdentifier) => {
+/**
+ * 
+ * @param {string} templateIdentifier - The unique template identifier
+ * @returns {boolean} TRUE if the templateIdentifier describes a gistId, FALSE if not
+ */
+function isGistId(templateIdentifier) {
     return /^(g|G):.*$/.test(templateIdentifier);
 }
 
-module.exports.isRepository = (templateIdentifier) => {
+/**
+ * 
+ * @param {string} templateIdentifier - The unique template identifier
+ * @returns {boolean} TRUE if the templateIdentifier describes a git repository, FALSE if not
+ */
+function isRepository(templateIdentifier) {
     return /^(r|R):\w*\/\w*$/.test(templateIdentifier);
 }
 
-module.exports.parseGistId = (templateIdentifier) => {
+/**
+ * 
+ * @param {string} templateIdentifier - The unique template identifier
+ * @returns {string} The gistId contained in the templateIdentifier
+ */
+function parseGistId(templateIdentifier) {
     if (!this.isGistId(templateIdentifier)){
         return templateIdentifier;
     }
@@ -50,10 +61,24 @@ module.exports.parseGistId = (templateIdentifier) => {
     return templateIdentifier.split(':').pop();
 }
 
-module.exports.parseRepository = (templateIdentifier) => {
+/**
+ * 
+ * @param {string} templateIdentifier - The unique template identifier
+ * @returns {string} The repository name contained in the templateIdentifier
+ */
+function parseRepository(templateIdentifier) {
     if (!this.isRepository(templateIdentifier)){
         return templateIdentifier;
     }
 
     return templateIdentifier.split(':').pop();
+}
+
+module.exports = {
+    isGistId,
+    isRepository,
+    parseGistId,
+    parseRepository,
+    TYPE_GIST,
+    TYPE_REPOSITORY
 }
