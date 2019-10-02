@@ -1,6 +1,7 @@
 "use strict";
 
-const TemplateRenderer = require('../templates/templateRenderer');
+const templateRenderer = require('../templates/templateRenderer');
+const templateResolver = require('../templates/templateResolver');
 
 /**
  * 
@@ -9,7 +10,6 @@ const TemplateRenderer = require('../templates/templateRenderer');
  */
 function renderTemplate(context, templateStore){
     return new Promise((resolve, reject) => {
-        const renderer = new TemplateRenderer();
 
         if (!context.template){
             resolve();
@@ -22,8 +22,10 @@ function renderTemplate(context, templateStore){
             templateText = templateStore.getTemplate(templateIdentifier);
         }
         else {
-            templateText = 
+            templateText = templateResolver(templateIdentifier);
         }
+
+        let renderedTemplate = await templateRenderer(templateText, context);
     });
 };
 
