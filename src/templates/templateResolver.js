@@ -65,17 +65,13 @@ function classifyTemplateIdentifier(templateIdentifier) {
  * @returns {string} Template string
  */
 async function resolveGistTemplate(templateIdentifier, onProgress) {
-	try {
-        let gistId = templateHelper.parseGistId(templateIdentifier);
-        
-        onProgress(LC_GIST_RETRIEVE);
-        let gistText = await gitHelpers.getGist(gistId);
-        onProgress(LC_GIST_RETRIEVED);
+	let gistId = templateHelper.parseGistId(templateIdentifier);
+	
+	onProgress(LC_GIST_RETRIEVE);
+	let gistText = await gitHelpers.getGist(gistId);
+	onProgress(LC_GIST_RETRIEVED);
 
-		return gistText;
-	} catch (e) {
-		console.error(e);
-	}
+	return gistText;
 }
 
 module.exports = {

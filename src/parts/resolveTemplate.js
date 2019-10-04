@@ -15,21 +15,20 @@ const lifeCycleMap = {
  * @param {string[]} templateIdentifiers - A list of template identifiers for which to retrieve the template text
  * @param {TemplateStore} templateStore - The shared template store
  */
-async function resolveTemplates(templateIdentifiers, templateStore) {
-
-	const foo = templateIdentifiers.map(templateIdentifier => async () => {
-		let templateText = await templateResolver.resolveTemplate(
+async function resolveTemplates(templateIdentifier, templateStore) {
+	let templateText
+	
+	try {
+		templateText = await templateResolver.resolveTemplate(
 			templateIdentifier,
 			progress => {
-				printer.printResolveProgress(
-					lifeCycleMap[progress] || progress
-				);
+				printer.printResolveProgress(lifeCycleMap[progress] || progress);
 			}
 		);
-		templateStore.cacheTemplate(templateIdentifier, templateText);
-    });
-    
-    await Promise.all(foo.map(item => item()));
+	} catch (e){
+		printer.warning(`Template ${templateIdentifier} could not be retrieved falling back to creating an empty file`);
+	}
+	templateStore.cacheTemplate(templateIdentifier, templateText);
 }
 
 module.exports = resolveTemplates;

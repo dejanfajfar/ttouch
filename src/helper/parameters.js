@@ -62,19 +62,12 @@ module.exports.inlineContextData = (contextData) => {
     };
 }
 
-module.exports.applyInlineTemplate = (inlineTemplateData) => {
+module.exports.applyInlineTemplate = (selectedTemplate) => {
 	return (item, index, origin) => {
 		let retVal = {
-			...item
-		};
-
-		if (inlineTemplateData instanceof Array){
-			let inlineTemplate = inlineTemplateData[0];
-
-			if(inlineTemplate && inlineTemplate){
-				retVal.template = item.template || inlineTemplate;
-			}
-		}
+            ...item,
+            template: selectedTemplate
+        };;
 
 		return retVal;
 	};

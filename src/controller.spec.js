@@ -54,10 +54,84 @@ describe('controller', () => {
                 expect(expandedParameters).to.not.be.empty;
             });
         });
+    });
 
-        
+    describe('determineUsedTemplate', ()=> {
+        const determineUsedTemplate = controller.__get__('determineUsedTemplate');
+        let userParameters = null;
 
-        
+        describe('GIVEN inline template AND no selected template', () => {
+            beforeEach(() => {
+                userParameters = {
+                    commandBase: '/user/testFolder',
+                    files: ['myText.txt', '../yourText.txt', 'r:userName/repoName'],
+                    dest: '.',
+                    isVerbose: true,
+                    timeStamp: new Date('2019-10-02T08:52:48.183Z')
+                };
+            });
+
+            it('THEN inline template returned as string', () => {
+                let selectedTemplate = determineUsedTemplate(userParameters);
+
+                expect(selectedTemplate).to.be.equal('r:userName/repoName');
+            });
+        });
+
+        describe('GIVEN inline templete AND selected template', () => {
+            beforeEach(() => {
+                userParameters = {
+                    commandBase: '/user/testFolder',
+                    files: ['myText.txt', '../yourText.txt', 'r:userName/repoName'],
+                    dest: '.',
+                    isVerbose: true,
+                    template: 'g:12345',
+                    timeStamp: new Date('2019-10-02T08:52:48.183Z')
+                };
+            });
+
+            it('THEN selected template returned as string', () => {
+                let selectedTemplate = determineUsedTemplate(userParameters);
+
+                expect(selectedTemplate).to.be.equal('g:12345');
+            });
+        });
+
+        describe('GIVEN no inline templete AND no selected template', () => {
+            beforeEach(() => {
+                userParameters = {
+                    commandBase: '/user/testFolder',
+                    files: ['myText.txt', '../yourText.txt'],
+                    dest: '.',
+                    isVerbose: true,
+                    timeStamp: new Date('2019-10-02T08:52:48.183Z')
+                };
+            });
+
+            it('THEN selected template returned as string', () => {
+                let selectedTemplate = determineUsedTemplate(userParameters);
+
+                expect(selectedTemplate).to.be.undefined;
+            });
+        });
+
+        describe('GIVEN multiple inline templetes', () => {
+            beforeEach(() => {
+                userParameters = {
+                    commandBase: '/user/testFolder',
+                    files: ['myText.txt', '../yourText.txt', 'r:userName/repoName1', 'r:userName/repoName2', 'r:userName/repoName3'],
+                    dest: '.',
+                    isVerbose: true,
+                    timeStamp: new Date('2019-10-02T08:52:48.183Z')
+                };
+            });
+
+            it('THEN first inline template returned', () => {
+                let selectedTemplate = determineUsedTemplate(userParameters);
+
+                expect(selectedTemplate).to.be.equal('r:userName/repoName1');
+            });
+        });
     });
 });
 
