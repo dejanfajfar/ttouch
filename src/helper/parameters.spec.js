@@ -146,9 +146,7 @@ describe('parameters', () => {
 				fileProperty: 'someText'
 			};
 
-			let appliedTemplateData = parameters.applyInlineTemplate([{
-				origin: 'inlineTemplate'
-			}])(fileData);
+			let appliedTemplateData = parameters.applyInlineTemplate(['inlineTemplate'])(fileData);
 
 			expect(appliedTemplateData.template).to.be.equal('inlineTemplate');
 		});
@@ -157,7 +155,7 @@ describe('parameters', () => {
 				fileProperty: 'someText'
 			};
 
-			let appliedTemplateData = parameters.applyInlineTemplate([{}])(fileData);
+			let appliedTemplateData = parameters.applyInlineTemplate([])(fileData);
 
 			expect(appliedTemplateData).to.not.have.property('template');
 		});

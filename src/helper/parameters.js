@@ -71,8 +71,8 @@ module.exports.applyInlineTemplate = (inlineTemplateData) => {
 		if (inlineTemplateData instanceof Array){
 			let inlineTemplate = inlineTemplateData[0];
 
-			if(inlineTemplate && inlineTemplate.origin){
-				retVal.template = item.template || inlineTemplate.origin;
+			if(inlineTemplate && inlineTemplate){
+				retVal.template = item.template || inlineTemplate;
 			}
 		}
 

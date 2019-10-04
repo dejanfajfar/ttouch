@@ -8,6 +8,10 @@ module.exports.createFile = (absolutePath) => {
     fs.writeFileSync(absolutePath, '');
 };
 
+module.exports.writeToFile = (absolutePath, content) => {
+    fs.writeFileSync(absolutePath, content);
+};
+
 module.exports.createDirectory = directoryPath => {
     fs.mkdirSync(directoryPath, {recursive: true});
 };

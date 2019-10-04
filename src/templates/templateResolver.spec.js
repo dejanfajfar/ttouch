@@ -7,6 +7,8 @@ const expect = chai.expect;
 const templateResolver = rewire('./templateResolver');
 const templateHelper = require('../helper/template');
 
+const validGist = 'c2d40dbb22398efa2af5d667a34464f9';
+
 describe('TemplateResolver', () => {
     describe('classifyTemplateIdentifier', () => {
         const classifyTemplateIdentifier = templateResolver.__get__('classifyTemplateIdentifier');
@@ -19,6 +21,13 @@ describe('TemplateResolver', () => {
         });
         it('Given a unknown identifier then identified as Unknown', () => {
             expect(classifyTemplateIdentifier('ugaBoga')).to.be.equal(templateHelper.TYPE_UNKNOWN);
+        });
+    });
+
+    describe('resolveTemplate', () => {
+        it('foo', async () => {
+            let template = await templateResolver.resolveTemplate(`g:${validGist}`, () => {});
+            console.log(template);
         });
     });
 });

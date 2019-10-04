@@ -1,35 +1,37 @@
 "use strict";
 
-const rp = require('request-promise-native');
+const rp = require("request-promise-native");
 
-const gistError = require('../errors/gistError');
+const gistError = require("../errors/gistError");
 
-const apiAddress = 'http://api.github.com';
-const gistFileName = 'template';
+const apiAddress = "http://api.github.com";
+const gistFileName = "template";
 
-module.exports.getGist = (gistId) => {
-    if (gistId === '' || gistId === undefined) {
-        Promise.resolve('');
-    }
+module.exports.getGist = async gistId => {
+	try {
+		if (gistId === "" || gistId === undefined) {
+			return '';
+		}
+		let requestOptions = {
+			method: "GET",
+			uri: apiAddress + "/gists/" + gistId,
+			headers: {
+				"User-Agent": "Request-Promise"
+			},
+			json: true
+		};
+		let response = await rp(requestOptions);
 
-    return new Promise((resolve, reject) => {
-        let requestOptions = {
-            uri: apiAddress + '/gists/' + gistId,
-            headers: {
-                'User-Agent': 'Request-Promise'
-            },
-            json: true
-        };
-        
-        rp(requestOptions)
-            .then(response => {
-                if (response.files[gistFileName] !== undefined) {
-                    resolve(response.files[gistFileName].content);
-                }
-                reject(new gistError(gistId, `The gist template does not contain a ${gistFileName} file.`));
-            })
-            .catch(err => {
-                reject(new gistError(gistId, err));
-            });
-    });
+		if (response.files[gistFileName] !== undefined) {
+			return response.files[gistFileName].content;
+        }
+        else {
+            throw new gistError(
+                gistId,
+                `The gist template does not contain a ${gistFileName} file.`
+            );
+        }
+	} catch (err) {
+		throw new gistError(gistId, err);
+	}
 };

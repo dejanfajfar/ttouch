@@ -16,12 +16,12 @@ const gist404 = 'c2d40dbb22398efa2af5d667a34werwerwe'
 
 describe('gitHub', () => {
     describe('getGist',() => {
-        it('If an valid gist id then template text returned', () => {
-            let gistPromise = gitHub.getGist(validGist);
+        it('If an valid gist id then template text returned', async () => {
+            let gistText = await gitHub.getGist(validGist);
 
-            return expect(gistPromise).to.eventually.equal('class {{Name}} {\n  constructor(){\n    // add logic here\n  }\n}');
+            expect(gistText).to.be.equal('class {{name.upperCaseCamelCase}} {\n  constructor(){\n    // add logic here\n  }\n}');
         });
-        it('If no template file found in the gist then gistError returned', () => {
+        it('If no template file found in the gist then gistError returned', async () => {
             let gistPromise = gitHub.getGist(missingTemplateGist);
 
             return expect(gistPromise).to.eventually.rejectedWith(gistError);

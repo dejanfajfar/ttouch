@@ -1,32 +1,38 @@
 "use strict";
 
-const templateRenderer = require('../templates/templateRenderer');
-const templateResolver = require('../templates/templateResolver');
+const templateRenderer = require("../templates/templateRenderer");
+const templateResolver = require("../templates/templateResolver");
+const fsHelper = require("../helper/fileSystem");
+const printer = require("../helper/print");
 
 /**
- * 
- * @param {object} context - The template data and context information for this file
+ * The passed context information
+ * @typedef {object} Context
+ * @param {string} template - The template identifier to be used to render this file
+ * @param {string} absolutePath - The absolute system specific path to the target file
+ */
+
+/**
+ *
+ * @param {Context} context - The template data and context information for this file
  * @param {TemplateStore} templateStore - The template store instance to
  */
-function renderTemplate(context, templateStore){
-    return new Promise((resolve, reject) => {
+function renderTemplate(context, templateStore) {
+	if (!context.template) {
+		printer.info("No template found skipping");
+		return '';
+	}
 
-        if (!context.template){
-            resolve();
-        }
+	const templateIdentifier = context.template;
 
-        const templateIdentifier = context.template;
-        let templateText = null;
+	let templateText = templateStore.getTemplate(templateIdentifier);
 
-        if (templateStore.hasTemplate(templateIdentifier)) {
-            templateText = templateStore.getTemplate(templateIdentifier);
-        }
-        else {
-            templateText = templateResolver(templateIdentifier);
-        }
-
-        let renderedTemplate = await templateRenderer(templateText, context);
-    });
-};
+	printer.info("Rendering Template");
+	let renderedTemplate = templateRenderer(templateText, context);
+	printer.info("Writing template");
+	fsHelper.writeToFile(context.absolutePath, renderedTemplate);
+	printer.info("Done");
+	return renderedTemplate;
+}
 
 module.exports = renderTemplate;

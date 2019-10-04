@@ -21,7 +21,7 @@ describe('controller', () => {
             let expandedParameters = null;
 
             beforeEach(() => {
-                expandedParameters = expandParameters(userParameters);
+                [expandedParameters, ] = expandParameters(userParameters);
             });
 
             it('Then only two files identified', () => {
