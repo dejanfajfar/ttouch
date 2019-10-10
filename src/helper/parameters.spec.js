@@ -129,33 +129,40 @@ describe('parameters', () => {
 	});
 
 	describe('applyInlineTemplate', () => {
-		it('If template set explicitly then not overridden by inline template', () => {
+		it('If selected template data found then correctly set to the file data ', () => {
 			let fileData = {
 				fileProperty: 'someText',
 				template: 'testTemplate'
 			};
 
-			let appliedTemplateData = parameters.applyInlineTemplate([{
-				origin: 'inlineTemplate'
-			}])(fileData);
+			let appliedTemplateData = parameters.applyInlineTemplate('testTemplate')(fileData);
 
 			expect(appliedTemplateData.template).to.be.equal('testTemplate');
 		});
-		it('If template not set explicitly then overridden by inline template', () => {
+		it('If selected template undefined then template parameter not set', () => {
 			let fileData = {
 				fileProperty: 'someText'
 			};
 
-			let appliedTemplateData = parameters.applyInlineTemplate(['inlineTemplate'])(fileData);
+			let appliedTemplateData = parameters.applyInlineTemplate(undefined)(fileData);
 
-			expect(appliedTemplateData.template).to.be.equal('inlineTemplate');
-		});
-		it('If template not set explicitly and no inline template set then template not set', () => {
+			expect(appliedTemplateData).to.not.have.property('template');
+        });
+        it('If selected template null then template parameter not set', () => {
 			let fileData = {
 				fileProperty: 'someText'
 			};
 
-			let appliedTemplateData = parameters.applyInlineTemplate([])(fileData);
+			let appliedTemplateData = parameters.applyInlineTemplate(null)(fileData);
+
+			expect(appliedTemplateData).to.not.have.property('template');
+        });
+        it('If selected template is left empty then template parameter not set', () => {
+			let fileData = {
+				fileProperty: 'someText'
+			};
+
+			let appliedTemplateData = parameters.applyInlineTemplate('')(fileData);
 
 			expect(appliedTemplateData).to.not.have.property('template');
 		});

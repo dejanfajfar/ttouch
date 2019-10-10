@@ -18,22 +18,17 @@ describe('controller', () => {
             timeStamp: new Date('2019-10-02T08:52:48.183Z')
         };
         describe(`Given initial files ${userParameters.files}`, () => {
-            let expandedParameters = null;
+            let parameters = null;
 
             beforeEach(() => {
-                [expandedParameters, ] = expandParameters(userParameters);
+                parameters = expandParameters(userParameters);
             });
 
             it('Then only two files identified', () => {
-                expect(expandedParameters.length).to.be.equal(2);
-            });
-            it('Each file has the correct template applied', () => {
-                expandedParameters.forEach(item => {
-                    expect(item.template).to.be.equal('r:userName/repoName')
-                });
+                expect(parameters.length).to.be.equal(2);
             });
             it('All expected properties are present', () => {
-                expandedParameters.forEach(item => {
+                parameters.forEach(item => {
                     expect(item).to.have.ownProperty('origin');
                     expect(item).to.have.ownProperty('destinationPath');
                     expect(item).to.have.ownProperty('isGist');

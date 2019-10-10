@@ -10,6 +10,13 @@
             "name": "Create with gist",
             "program": "${workspaceFolder}\\index.js",
             "args": ["test.js", "g:c2d40dbb22398efa2af5d667a34464f9", "-v"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Create with file",
+            "program": "${workspaceFolder}\\index.js",
+            "args": ["test.js", "f:testTemplate.js", "-v"]
         }
     ]
 }

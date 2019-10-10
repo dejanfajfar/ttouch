@@ -1,13 +1,15 @@
 "user strict";
 
 const templateHelper = require("../helper/template");
+const fileSystemHelper = require("../helper/fileSystem");
 const gitHelpers = require("../helper/gitHub");
 
 const templateResolvers = {
 	[templateHelper.TYPE_GIST]: resolveGistTemplate,
+	[templateHelper.TYPE_FILE]: resolveFileTemplate,
 	[templateHelper.TYPE_REPOSITORY]: async () => {},
 	[templateHelper.TYPE_UNKNOWN]: async () => {
-		return "";
+		return "UNKNOWN";
 	}
 };
 
@@ -15,6 +17,8 @@ const LC_RESOLVE_START = "lcrestart";
 const LC_RESOLVE_COMPLETE = "lcrescomp";
 const LC_GIST_RETRIEVE = 'lcgistre';
 const LC_GIST_RETRIEVED = 'lcgistok';
+const LC_FILE_START_READ = 'lcflstrd';
+const LC_FILE_DONE_READ = 'lcfldnrd';
 
 /**
  *
@@ -28,7 +32,6 @@ const LC_GIST_RETRIEVED = 'lcgistok';
  * @async
  * @param {string} templateIdentifier - The unique template identifier
  * @param {onProgress} onProgress - The progress callback
- * @param {onCompleted} onCompleted - The callback triggered when the resolve finishes
  * @returns {string} The template text
  */
 async function resolveTemplate(templateIdentifier, onProgress) {
@@ -54,6 +57,9 @@ function classifyTemplateIdentifier(templateIdentifier) {
 	if (templateHelper.isRepository(templateIdentifier)) {
 		return templateHelper.TYPE_REPOSITORY;
 	}
+	if (templateHelper.isFileTemplate(templateIdentifier)) {
+		return templateHelper.TYPE_FILE;
+	}
 	return templateHelper.TYPE_UNKNOWN;
 }
 
@@ -74,10 +80,23 @@ async function resolveGistTemplate(templateIdentifier, onProgress) {
 	return gistText;
 }
 
+function resolveFileTemplate(templateIdentifier, onProgress) {
+	let filePath = templateHelper.parseFileTemplate(templateIdentifier);
+
+	let templateFileAbsolutePath = fileSystemHelper.determineFileAbsolutePathRelativeToCommand(filePath);
+	onProgress(LC_FILE_START_READ);
+	let templateContent = fileSystemHelper.readFile(templateFileAbsolutePath);
+	onProgress(LC_FILE_DONE_READ);
+
+	return templateContent;
+}
+
 module.exports = {
     resolveTemplate,
     LC_GIST_RETRIEVE,
     LC_GIST_RETRIEVED,
     LC_RESOLVE_COMPLETE,
-    LC_RESOLVE_START
+	LC_RESOLVE_START,
+	LC_FILE_DONE_READ,
+	LC_FILE_START_READ
 };

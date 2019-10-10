@@ -46,7 +46,7 @@ function expandParameters(userParameters, usedTemplate) {
 		.filter(file => file.isFilePath)
 		.map(parameterHelper.expandFileName)
 		.map(parameterHelper.inlineContextData(userParameters))
-		.map(parameterHelper.applyInlineTemplate(userParameters));
+		.map(parameterHelper.applyInlineTemplate(usedTemplate));
 
 	return expandedFilesData;
 }

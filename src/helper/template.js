@@ -1,23 +1,5 @@
 "use strict";
 
-/*module.exports = options => {
-    if (!options.template) {
-        return '';
-    }
-
-    const template = npmHelper.getTemplate(expandTemplateName(options.template));
-
-    if (typeof template !== 'function') {
-		throw new TemplateInvalidError(expandTemplateName(options.template));
-	}
-
-	try {
-		return template(options);
-	} catch (e) {
-    	throw new TemplateRenderingError(options.template, e);
-	}
-};*/
-
 /**
  * Gist template identifyer type
  */
@@ -26,6 +8,11 @@ const TYPE_GIST = "gist";
  * Git repository template identifier type
  */
 const TYPE_REPOSITORY = "repo";
+
+/**
+ * A template type defined by a local file on the system
+ */
+const TYPE_FILE = "file";
 /**
  * Repository identifier of unklnown type
  */
@@ -46,7 +33,7 @@ function expandTemplateName(templateName) {
  * @returns {boolean} TRUE if the templateIdentifier describes a gistId, FALSE if not
  */
 function isGistId(templateIdentifier) {
-	return /^(g|G):.*$/.test(templateIdentifier);
+	return /^[g|G]:.+$/.test(templateIdentifier);
 }
 
 /**
@@ -55,7 +42,29 @@ function isGistId(templateIdentifier) {
  * @returns {boolean} TRUE if the templateIdentifier describes a git repository, FALSE if not
  */
 function isRepository(templateIdentifier) {
-	return /^(r|R):\w*\/\w*$/.test(templateIdentifier);
+	return /^[r|R]:\w+\/\w+$/.test(templateIdentifier);
+}
+
+/**
+ * Determines if the given templateIdentifier denotes a file template or not
+ * @param {string} templateIdentifier - The unique template identifier
+ * @returns {boolean} TRUE if the templateIdentifier denotes a file template, FALSE if not
+ */
+function isFileTemplate(templateIdentifier) {
+	return /^[f|F]:.+$/.test(templateIdentifier);
+}
+
+/**
+ * Extracts the template file path from the file template identifier
+ * @param {string} templateIdentifier 
+ * @returns The file location if a file template identifier given. The input templateIdentifier if not identified as a file template identifier
+ */
+function parseFileTemplate(templateIdentifier) {
+	if (!this.isFileTemplate(templateIdentifier)) {
+		return templateIdentifier;
+	}
+
+	return templateIdentifier.slice(2);
 }
 
 /**
@@ -87,9 +96,12 @@ function parseRepository(templateIdentifier) {
 module.exports = {
 	isGistId,
 	isRepository,
+	isFileTemplate,
 	parseGistId,
 	parseRepository,
+	parseFileTemplate,
 	TYPE_GIST,
 	TYPE_REPOSITORY,
+	TYPE_FILE,
 	TYPE_UNKNOWN
 };

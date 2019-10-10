@@ -47,7 +47,7 @@ module.exports.analyseFileNames = (fileName, index, origin) => {
         ...fileName,
         isGist: templates.isGistId(originalName),
         isRepository: templates.isRepository(originalName),
-        isFilePath: !templates.isGistId(originalName) && !templates.isRepository(originalName)
+        isFilePath: !templates.isGistId(originalName) && !templates.isRepository(originalName) && !templates.isFileTemplate(originalName)
     }
 }
 
@@ -64,10 +64,13 @@ module.exports.inlineContextData = (contextData) => {
 
 module.exports.applyInlineTemplate = (selectedTemplate) => {
 	return (item, index, origin) => {
+        if (selectedTemplate === undefined || selectedTemplate === '' || selectedTemplate === null) {
+            return item;
+        }
 		let retVal = {
             ...item,
             template: selectedTemplate
-        };;
+        };
 
 		return retVal;
 	};

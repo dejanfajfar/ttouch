@@ -28,6 +28,35 @@ describe('Template', () => {
         });
     });
 
+    describe('isFileTemplate', () => {
+        it('If starting with f or F then identifier as a file template', () => {
+                // Test for windows path format
+            expect(templates.isFileTemplate('f:c:\\temo\\template.txt')).to.be.true;
+            expect(templates.isFileTemplate('F:c:\\temo\\template.txt')).to.be.true;
+
+            // Test for unix path format
+            expect(templates.isFileTemplate('f:/var/templates/template.txt')).to.be.true;
+            expect(templates.isFileTemplate('F:/var/templates/template.txt')).to.be.true;
+        });
+        it('If not starting with f or F then not recognized as file template', () => {
+            expect(templates.isFileTemplate('c:\\temo\\template.txt')).to.be.false;
+            expect(templates.isFileTemplate('c:\\temo\\template.txt')).to.be.false;
+        });
+        it('If empty string after template switch then not identified as a file template', () => {
+            expect(templates.isFileTemplate('f:')).to.be.false;
+            expect(templates.isFileTemplate('F:')).to.be.false;
+        });
+    });
+
+    describe('parseFileTemplate', () => {
+        it('Given a non file template identifier then template identifier returned', () => {
+            expect(templates.parseFileTemplate('g:test')).to.be.equal('g:test');
+        });
+        it('Given a valid file template identifier then the file path returned', () => {
+            expect(templates.parseFileTemplate('f:c:\\temp\\template.txt')).to.be.equal('c:\\temp\\template.txt');
+        });
+    });
+
     describe('parseGistId', () => {
         it('Given a valid gist id then only the id returned', () => {
             expect(templates.parseGistId('g:ed5da3034bb8101e901b36cbde43cd30')).to.be.equal('ed5da3034bb8101e901b36cbde43cd30');
