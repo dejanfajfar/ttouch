@@ -6,5 +6,5 @@ const printHelper = require("../helper/print");
 module.exports = context => {
 	fsf.createFile(context.absolutePath);
 
-	printHelper.onFileWritten(context.fullFileName);
+	printHelper.info(`Created empty file ${context.fullFileName}`);
 };

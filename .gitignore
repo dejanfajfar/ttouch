@@ -69,4 +69,5 @@ test.sh
 # Test files
 
 test/
+testData/
 test.*

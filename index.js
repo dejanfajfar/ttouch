@@ -21,6 +21,9 @@ const argv = require('yargs')
     .help()
     .argv;
 
+// Not the best idea but the verbosity is saved in the global variable
+global.isVerbose = argv.verbose;
+
 header();
 controller({
     commandBase: process.cwd(),
