@@ -1,11 +1,11 @@
 "use strict";
 
 const fsf = require("../helper/fileSystem");
-const printHelper = require("../helper/print");
+const printer = require("../shared/printer");
 
 module.exports = context => {
 	if (!fsf.doesFolderExist(context.containingFolder)) {
 		fsf.createDirectory(context.containingFolder);
-		printHelper.onDirectoryCreated(context.containingFolder);
+		printer.onDirectoryCreated(context.containingFolder);
 	}
 };

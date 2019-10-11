@@ -1,7 +1,7 @@
 "use strict";
 
 const templateResolver = require("../templates/templateResolver");
-const printer = require("../helper/print");
+const printer = require("../shared/printer");
 
 const lifeCycleMap = {
 	[templateResolver.LC_RESOLVE_START]: "Resolving template...",
@@ -22,17 +22,14 @@ async function resolveTemplates(templateIdentifier, templateStore) {
 	
 	try {
 		templateText = await templateResolver.resolveTemplate(
-			templateIdentifier,
-			progress => {
-				printer.info(lifeCycleMap[progress] || progress);
-			}
+			templateIdentifier
 		);
 	} catch (e){
 		printer.warn(`Template ${templateIdentifier} could not be resolved`);
 		printer.warn(e.message);
 		printer.warn('The files will be created empty!')
 		if(global.isVerbose) {
-			printer.error(e);
+			printer.error(e.stack);
 		}
 	}
 	templateStore.cacheTemplate(templateIdentifier, templateText);

@@ -1,6 +1,6 @@
 "use strict";
 
-const printer = require("../helper/print");
+const printer = require("../shared/printer");
 
 module.exports = context => {
 	printer.info(`File name ${context.fullFileName}`);

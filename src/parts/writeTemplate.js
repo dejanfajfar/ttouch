@@ -3,7 +3,7 @@
 const templateRenderer = require("../templates/templateRenderer");
 const templateResolver = require("../templates/templateResolver");
 const fsHelper = require("../helper/fileSystem");
-const printer = require("../helper/print");
+const printer = require("../shared/printer");
 
 /**
  * The passed context information

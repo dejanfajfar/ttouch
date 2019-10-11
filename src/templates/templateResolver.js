@@ -13,34 +13,17 @@ const templateResolvers = {
 	}
 };
 
-const LC_RESOLVE_START = "lcrestart";
-const LC_RESOLVE_COMPLETE = "lcrescomp";
-const LC_GIST_RETRIEVE = 'lcgistre';
-const LC_GIST_RETRIEVED = 'lcgistok';
-const LC_FILE_START_READ = 'lcflstrd';
-const LC_FILE_DONE_READ = 'lcfldnrd';
-
-/**
- *
- * The onProgress callback function
- * @callback onProgress
- * @param {string} lifeCycleName - The name of the lifecycle just began
- */
-
 /**
  * Resolves a template identifier to a template text
  * @async
  * @param {string} templateIdentifier - The unique template identifier
- * @param {onProgress} onProgress - The progress callback
  * @returns {string} The template text
  */
-async function resolveTemplate(templateIdentifier, onProgress) {
+async function resolveTemplate(templateIdentifier) {
 	let resolver =
 		templateResolvers[classifyTemplateIdentifier(templateIdentifier)];
 
-	onProgress(LC_RESOLVE_START);
-	let templateText = await resolver(templateIdentifier, onProgress);
-	onProgress(LC_RESOLVE_COMPLETE);
+	let templateText = await resolver(templateIdentifier);
 
 	return templateText;
 }
@@ -67,15 +50,12 @@ function classifyTemplateIdentifier(templateIdentifier) {
  * Retrieves the gist
  * @async
  * @param {string} templateIdentifier - The unique template identifier
- * @param {onProgress} onProgress - The callback called when the lifecycle of the resolver changes
  * @returns {string} Template string
  */
-async function resolveGistTemplate(templateIdentifier, onProgress) {
+async function resolveGistTemplate(templateIdentifier) {
 	let gistId = templateHelper.parseGistId(templateIdentifier);
 	
-	onProgress(LC_GIST_RETRIEVE);
 	let gistText = await gitHelpers.getGist(gistId);
-	onProgress(LC_GIST_RETRIEVED);
 
 	return gistText;
 }
@@ -84,19 +64,11 @@ function resolveFileTemplate(templateIdentifier, onProgress) {
 	let filePath = templateHelper.parseFileTemplate(templateIdentifier);
 
 	let templateFileAbsolutePath = fileSystemHelper.determineFileAbsolutePathRelativeToCommand(filePath);
-	onProgress(LC_FILE_START_READ);
 	let templateContent = fileSystemHelper.readFile(templateFileAbsolutePath);
-	onProgress(LC_FILE_DONE_READ);
 
 	return templateContent;
 }
 
 module.exports = {
-    resolveTemplate,
-    LC_GIST_RETRIEVE,
-    LC_GIST_RETRIEVED,
-    LC_RESOLVE_COMPLETE,
-	LC_RESOLVE_START,
-	LC_FILE_DONE_READ,
-	LC_FILE_START_READ
+    resolveTemplate
 };

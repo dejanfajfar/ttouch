@@ -60,9 +60,8 @@ function determineUsedTemplate(userParameters) {
 		.map(parameterHelper.analyseFileNames)
 		.filter(file => !file.isFilePath)
 		.map(inlineTemplate => inlineTemplate.origin);
-	
 
-	if(inlineTemplates.length > 0){
+	if (inlineTemplates.length > 0) {
 		return inlineTemplates[0];
 	}
 }

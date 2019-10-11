@@ -1,10 +1,10 @@
 "use strict";
 
 const fsf = require("../helper/fileSystem");
-const printHelper = require("../helper/print");
+const printer = require("../shared/printer");
 
 module.exports = context => {
 	fsf.createFile(context.absolutePath);
 
-	printHelper.info(`Created empty file ${context.fullFileName}`);
+	printer.info(`Created empty file ${context.fullFileName}`);
 };
