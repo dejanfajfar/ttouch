@@ -5,6 +5,8 @@ const expect = chai.expect;
 const sinon = require("sinon");
 const sinon_chai = require("sinon-chai");
 
+const printer = require('./shared/printer');
+
 chai.use(sinon_chai);
 
 const ErrorHandler = require("./errorHandler");
@@ -16,8 +18,8 @@ describe("ErrorHandler", () => {
 	beforeEach(() => {
 		let logFake = sinon.fake();
 		let errorFake = sinon.fake();
-		sinon.replace(console, "log", logFake);
-		sinon.replace(console, "error", errorFake);
+		sinon.replace(printer, "info", logFake);
+		sinon.replace(printer, "error", errorFake);
 		sinon.replace(process, "exit", () => {});
 	});
 
@@ -25,25 +27,22 @@ describe("ErrorHandler", () => {
 		sinon.restore();
 	});
 
-	/**
-	 * TemplateRenderingError
-	 */
 	describe("Given a TemplateNotFoundError and isVerbose === false", () => {
 		beforeEach(() => {
 			ErrorHandler(false, new TemplateNotFoundError("testTemplate"));
 		});
 		it("Expect the correct info message to be printed", () => {
-			expect(console.log).to.be.calledWithMatch(
+			expect(printer.info).to.be.calledWithMatch(
 				"Try installing it with npm install -g testTemplate"
 			);
 		});
 		it("Expect the correct error message to be printed", () => {
-			expect(console.error).to.be.calledWithMatch(
+			expect(printer.error).to.be.calledWithMatch(
 				"Template could not be found"
 			);
 		});
 		it("Expect that the additional error message is not printed", () => {
-			expect(console.error).to.be.calledOnce;
+			expect(printer.error).to.be.calledOnce;
 		});
 	});
 
@@ -58,20 +57,20 @@ describe("ErrorHandler", () => {
 			);
 		});
 		it("Expect the correct info message to be printerd", () => {
-			expect(console.log).to.be.calledWithMatch(
+			expect(printer.info).to.be.calledWithMatch(
 				"Try installing it with npm install -g testTemplate"
 			);
 		});
 		it("Expect the correct error message to be printed", () => {
-			expect(console.error).to.be.calledWithMatch(
+			expect(printer.error).to.be.calledWithMatch(
 				"Template could not be found"
 			);
 		});
 		it("Expect that the additional error message is printed", () => {
-			expect(console.error).to.be.calledWithMatch("Inner Error");
+			expect(printer.error).to.be.calledWithMatch("Inner Error");
 		});
 		it("Expect two error messages to be printed", () => {
-			expect(console.error).to.be.calledTwice;
+			expect(printer.error).to.be.calledTwice;
 		});
 	});
 
@@ -83,17 +82,17 @@ describe("ErrorHandler", () => {
 			ErrorHandler(false, new TemplateRenderingError("testTemplate"));
 		});
 		it("Expect the correct info message to be printerd", () => {
-			expect(console.log).to.be.calledWithMatch(
+			expect(printer.info).to.be.calledWithMatch(
 				"The file has been created but left empty"
 			);
 		});
 		it("Expect the correct error message to be printed", () => {
-			expect(console.error).to.be.calledWithMatch(
+			expect(printer.error).to.be.calledWithMatch(
 				"Template could not be rendered"
 			);
 		});
 		it("Expect that the additional error message is not printed", () => {
-			expect(console.error).to.be.calledOnce;
+			expect(printer.error).to.be.calledOnce;
 		});
 	});
 
@@ -108,20 +107,20 @@ describe("ErrorHandler", () => {
 			);
 		});
 		it("Expect the correct info message to be printerd", () => {
-			expect(console.log).to.be.calledWithMatch(
+			expect(printer.info).to.be.calledWithMatch(
 				"The file has been created but left empty"
 			);
 		});
 		it("Expect the correct error message to be printed", () => {
-			expect(console.error).to.be.calledWithMatch(
+			expect(printer.error).to.be.calledWithMatch(
 				"Template could not be rendered"
 			);
 		});
 		it("Expect that the additional error message is printed", () => {
-			expect(console.error).to.be.calledWithMatch("Inner Error");
+			expect(printer.error).to.be.calledWithMatch("Inner Error");
 		});
 		it("Expect two error messages to be printed", () => {
-			expect(console.error).to.be.calledTwice;
+			expect(printer.error).to.be.calledTwice;
 		});
 	});
 });

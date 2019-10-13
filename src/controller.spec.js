@@ -73,22 +73,41 @@ describe('controller', () => {
             });
         });
 
-        describe('GIVEN inline templete AND selected template', () => {
+        describe('GIVEN gist templete AND selected template', () => {
             beforeEach(() => {
                 userParameters = {
                     commandBase: '/user/testFolder',
                     files: ['myText.txt', '../yourText.txt', 'r:userName/repoName'],
                     dest: '.',
                     isVerbose: true,
-                    template: 'g:12345',
+                    gist: '12345',
                     timeStamp: new Date('2019-10-02T08:52:48.183Z')
                 };
             });
 
-            it('THEN selected template returned as string', () => {
+            it('THEN the gist template is returned', () => {
                 let selectedTemplate = determineUsedTemplate(userParameters);
 
                 expect(selectedTemplate).to.be.equal('g:12345');
+            });
+        });
+
+        describe('GIVEN file templete AND selected template', () => {
+            beforeEach(() => {
+                userParameters = {
+                    commandBase: '/user/testFolder',
+                    files: ['myText.txt', '../yourText.txt', 'r:userName/repoName'],
+                    dest: '.',
+                    isVerbose: true,
+                    file: '12345',
+                    timeStamp: new Date('2019-10-02T08:52:48.183Z')
+                };
+            });
+
+            it('THEN the file template is returned', () => {
+                let selectedTemplate = determineUsedTemplate(userParameters);
+
+                expect(selectedTemplate).to.be.equal('f:12345');
             });
         });
 

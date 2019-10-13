@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Gist template type
 - Inline parameter template selection
 - TTOUCH_HOME environment variable
+- File template type
+- Template file CLI switch
+- Gist CLI switch
+- Added 
 
 ### Changed
 
@@ -18,6 +22,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - If no template provided the the file contains the string "undefined"
+
+### Removed
+
+- the --template cli parameter
+- the old template system was removed! 
 
 ## [1.0.0]
 ### Fixed

@@ -34,25 +34,33 @@ Beeing a simple
 $ npm install -g ttouch
 ```
 
+### What if I do not want to install it
+
+If you do not want to _pollute_ your global namespace then __ttouch__ can be use __npx__. But more on that in the usage section. 
+
 ## Usage
 
-### Synopsis
 
 ```bash
 $ ttouch <filePath> [options]
 ```
 
-### Description
+or if you do not want to install it globally
 
-Creates a new file at the location described, optionally with the template content selected.
+```bash
+$ npx ttouch <filePath> [options]
+```
+
+### Options
 
 | Short | Long | Description |
 | --- | --- | --- |
 | -d | --destination | The destination folder for the desired file(s) |
-| -t | --template | The template name to use at the newly created files |
+| -g | --gist | The public gist ID to use as the template |
+| -f | --file | The local file used as the template |
 | -v | --verbose | Provides additional error information. Does not add additional output statements under normal operation! |
 
-### Examples
+### Usage examples
 
 ```bash
 $ ttouch test.sh
@@ -61,10 +69,16 @@ $ ttouch test.sh
 Will create an _empty_ file names **test.sh** in the current directory.
 
 ```bash
-$ ttouch test.sh -t bash
+$ ttouch test.sh -g 37bcbb7217d26c2dd3e5f4cee9fd6e37
 ```
 
-Will create a file named **test.sh** in the current directory and apply the **ttt-bash** template to the created file.
+Will create a __test.sh__ file in the current directory using the public gist 37bcbb7217d26c2dd3e5f4cee9fd6e37
+
+```bash
+$ ttouch test.sh -f bash
+```
+
+Will create a __test.sh__ file using a file named __bash__ located in the current folder or specified by _TTOUCH_HOME_.
 
 ```bash
 /home/me $ ttouch /dir1/dir2/test.sh -t bash
