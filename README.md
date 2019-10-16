@@ -6,29 +6,16 @@
 [![NPM](https://nodei.co/npm/ttouch.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ttouch/)
 
 ![](https://raw.githubusercontent.com/dejanfajfar/ttouch/master/misc/header_image.jpg)
+
 # ttouch
 
 > *touch* with templates
 
-## Introduction
+Creating new files is easy, but entering the same boilerplate content into everyone is tedious. When creating a new ```my_script.sh``` file would it not be great if the shebang would already be there?
 
-Creating new files is easy. Creating a new file and staring at an empty file you have to fill is not so great. 
-
-Writting programs creating new files is something that happens quite often. And everytime you have to go into the file and fill it out with boilerplate code that is the same in every file of the same _type_. 
-
-So I wanted something that:
-
-* Creates file prefilled with the desired boilerplate code
-* Automatically creates missing directories, much like ```mkdir -p```
-* Cross platform. So that I can use the same tool on every system
-
-Because such a tool was not to be found I build one.
-
-Allow me to present to you ```ttouch```
+That is what __ttouch__ does for you and much more.
 
 ## Installation
-
-Beeing a simple
 
 ```bash
 $ npm install -g ttouch
@@ -39,7 +26,6 @@ $ npm install -g ttouch
 If you do not want to _pollute_ your global namespace then __ttouch__ can be use __npx__. But more on that in the usage section. 
 
 ## Usage
-
 
 ```bash
 $ ttouch <filePath> [options]
@@ -60,13 +46,27 @@ $ npx ttouch <filePath> [options]
 | -f | --file | The local file used as the template |
 | -v | --verbose | Provides additional error information. Does not add additional output statements under normal operation! |
 
-### Usage examples
+### Environment variables
+
+__ttouch__ uses the ```TTOUCH_HOME``` environment variable to determine the default location for file templates. If this environment variable is present then the absolute path to the provided template file will be assumed to the ````$TTTOUCH_HOME/{templateName}```.
+
+__Example:__
+
+```bash
+$ ttouch user.js -f js_class
+```
+
+Given that TTOUCH_HOME = /var/ttouch
+
+Then the template used will be assumed to be at ```/var/ttouch/js_template```
+
+### Examples
 
 ```bash
 $ ttouch test.sh
 ```
 
-Will create an _empty_ file names **test.sh** in the current directory.
+Will create an _empty_ file names __test.sh__ in the current directory.
 
 ```bash
 $ ttouch test.sh -g 37bcbb7217d26c2dd3e5f4cee9fd6e37
@@ -81,20 +81,22 @@ $ ttouch test.sh -f bash
 Will create a __test.sh__ file using a file named __bash__ located in the current folder or specified by _TTOUCH_HOME_.
 
 ```bash
-/home/me $ ttouch /dir1/dir2/test.sh -t bash
+/home/me $ ttouch /dir1/dir2/test.sh -f bash
 ```
 
 Will create a file named **test.sh** in the directory **/home/me/dir1/dir2/test.sh** and apply the **ttt-bash** template to the created file.
 
+_NOTE: If and part of the destination path does not exist then the directories will be created_
+
 The same could be achieved with:
 
 ```bash
-/home/me $ ttouch test.sh -t bash -d dir1/dir2
+/home/me $ ttouch test.sh -f bash -d dir1/dir2
 ```
 
 ### Multiple files
 
-Another feature of ```ttouch``` is to create multiple files at the same time. This is usefull if you have to create multiple files of the same type, like a bunch of javascrip class definitions.
+Want to create more than just one file? No problem. Just list them and provide an optional template.
 
 ```bash
 $ ttouch student.js teacher.js -t jsclass
@@ -104,15 +106,24 @@ Will create two files **student.js** and **teacher.js** in the current folder ap
 
 ## Templates
 
-The core distinguishing thing of ttouch is the template stuff. Each template is an independent npm package. 
-A complete list of all published packages can be found by searching npmjs.org for all packages tagged with _ttouch_.
+__ttouch__ does not come with any templates out of the box. All templates are _external_ to the program, files and gists. So one of the first tasks will be to start a template or two.
 
-The link below will give you the complete list 
-
-https://www.npmjs.com/search?q=ttouch
-
-> I am working and accepting ideas and help with creating a better list.
 
 ## Next steps
 
-Go to the wiki for more information...
+### Try it
+
+Give the thing a try to see if you like it or if there is something missing
+
+### Get in touch
+
+If you have any feedback do not hesitate to utter it. Use any of the following channels to do so:
+
+* [GitHub bugs](https://github.com/dejanfajfar/ttouch/issues)
+* [Gist chat](https://gitter.im/dejanfajfar/ttouch)
+
+### Create a template
+
+There is a list of my template -> [HERE](/docs/templates_list.md)
+
+If you would like to create your own -> [HERE](/docs/templates.md)
