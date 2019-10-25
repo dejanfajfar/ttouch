@@ -1,35 +1,34 @@
 "use strict";
 
-const chai = require('chai');
+const chai = require("chai");
 var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 const expect = chai.expect;
-const gitHub = require('./gitHub.js');
-const gistError = require('../errors/gistError');
-
+const gitHub = require("./gitHub.js");
+const gistError = require("../errors/gistError");
 
 //
 // Test Data
-const validGist = 'c2d40dbb22398efa2af5d667a34464f9';
-const missingTemplateGist = 'c9631d7d44cf4cd99349faabc83dada5';
-const gist404 = 'c2d40dbb22398efa2af5d667a34werwerwe'
+const validGist = "8533110db00d04d0126530fdff63d9b9";
+const missingTemplateGist = "c9631d7d44cf4cd99349faabc83dada5";
+const gist404 = "c2d40dbb22398efa2af5d667a34werwerwe";
 
-describe('gitHub', () => {
-    describe('getGist',() => {
-        it('If an valid gist id then template text returned', async () => {
-            let gistText = await gitHub.getGist(validGist);
+describe("gitHub", () => {
+	describe("getGist", () => {
+		it("GIVEN an valid gist id THEN template text returned", async () => {
+			let gistText = await gitHub.getGist(validGist);
 
-            expect(gistText).to.be.equal('class {{name.upperCaseCamelCase}} {\n  constructor(){\n    // add logic here\n  }\n}');
-        });
-        it('If no template file found in the gist then gistError returned', async () => {
-            let gistPromise = gitHub.getGist(missingTemplateGist);
+			expect(gistText).to.be.equal("TEST TEMPLATE");
+		});
+		it("GIVEN a valid gistId AND no template file in the gist THEN gistError returned", async () => {
+			let gistPromise = gitHub.getGist(missingTemplateGist);
 
-            return expect(gistPromise).to.eventually.rejectedWith(gistError);
-        });
-        it('If gist does not exist then gistError returned', () => {
-            let gistPromise = gitHub.getGist(gist404);
+			return expect(gistPromise).to.eventually.rejectedWith(gistError);
+		});
+		it("GIVEN invalid gist Id THEN gistError returned", () => {
+			let gistPromise = gitHub.getGist(gist404);
 
-            return expect(gistPromise).to.eventually.rejectedWith(gistError);
-        });
-    });
+			return expect(gistPromise).to.eventually.rejectedWith(gistError);
+		});
+	});
 });
