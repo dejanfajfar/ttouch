@@ -38,7 +38,7 @@ jobs:
         with:
           node-version: 10
           registry-url: https://npm.pkg.github.com/
-          scope: '@your-github-username'
+          scope: 'dejanfajfar'
       - run: npm ci
       - run: npm publish
         env:
