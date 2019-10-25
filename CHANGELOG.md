@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0]
+### Added
+
+- Gist template type
+- Inline parameter template selection
+- TTOUCH_HOME environment variable
+- File template type
+- Template file CLI switch
+- Gist CLI switch
+- Added 
+
+### Changed
+
+- The last file in the file list can now be a template identifier
+
+### Fixed
+
+- If no template provided the the file contains the string "undefined"
+
+### Removed
+
+- the --template cli parameter
+- the old template system was removed! 
+
 ## [1.0.0]
 ### Fixed
 

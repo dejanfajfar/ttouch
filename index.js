@@ -1,33 +1,39 @@
 #!/usr/bin/env node
 "use strict";
 
-const header = require('./src/helper/header');
-const controller = require('./src/controller');
+const header = require("./src/helper/header");
+const controller = require("./src/controller");
 
-const argv = require('yargs')
-    .option('destination', {
-        alias: 'd',
-        describe: 'The target folder for the created file(s)'
-    })
-	.option('verbose', {
-		alias: 'v',
-		describe: 'Output additional internal information'
+const argv = require("yargs")
+	.option("destination", {
+		alias: "d",
+		describe: "The target folder for the created file(s)"
 	})
-    .option('template', {
-        alias: 't',
-        describe: 'The used template for the given file(s)'
+	.option("verbose", {
+		alias: "v",
+		describe: "Output additional internal information"
+	})
+	.option("gist", {
+		alias: "g",
+		describe: "The gist ID containing the template to be used"
     })
-    .demandCommand(1)
-    .help()
-    .argv;
+    .option("file", {
+		alias: "f",
+		describe: "The relative path to the file used as the template"
+	})
+	.demandCommand(1)
+	.help().argv;
 
-let options = {
-    commandBase: process.cwd(),
-    files: argv._,
-    dest: argv.destination,
-    template: argv.template,
-	isVerbose: argv.verbose
-};
+// Not the best idea but the verbosity is saved in the global variable
+global.isVerbose = argv.verbose;
 
 header();
-controller(options);
+controller({
+	commandBase: process.cwd(),
+	files: argv._,
+	dest: argv.destination,
+	gistId: argv.gist,
+	templateFile: argv.file,
+	isVerbose: argv.verbose,
+	timeStamp: new Date()
+});

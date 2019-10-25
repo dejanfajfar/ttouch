@@ -1,36 +1,62 @@
 "use strict";
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-module.exports.createFile = (absolutePath, content) => {
+module.exports.createFile = absolutePath => {
+	fs.writeFileSync(absolutePath, "");
+};
 
-    fs.writeFileSync(absolutePath, content);
+module.exports.writeToFile = (absolutePath, content) => {
+	fs.writeFileSync(absolutePath, content);
 };
 
 module.exports.createDirectory = directoryPath => {
-    fs.mkdirSync(directoryPath, {recursive: true});
+	fs.mkdirSync(directoryPath, { recursive: true });
 };
 
-module.exports.determineDestinationFolder = (options) => {
-    if (options.dest) {
-        return path.resolve(process.cwd(), path.normalize(options.dest));
-    } else {
-        return process.cwd();
+module.exports.determineDestinationFolder = options => {
+	if (options.dest) {
+		return path.resolve(process.cwd(), path.normalize(options.dest));
+	} else {
+		return process.cwd();
+	}
+};
+
+module.exports.determineFileAbsolutePathRelativeToCommand = filePath => {
+    let baseDir = process.cwd();
+    if (process.env.TTOUCH_HOME) {
+        baseDir = process.env.TTOUCH_HOME
     }
+	return this.combinePath(baseDir, filePath);
 };
 
 module.exports.combinePath = (basePath, file) => {
-    return path.join(basePath, file);
+	return path.join(basePath, file);
 };
 
-module.exports.analyseFilePath = (filePath) => {
-    let directoryPath = path.dirname(filePath);
-    let fileName = path.basename(filePath);
+module.exports.analyseFilePath = filePath => {
+	let directoryPath = path.dirname(filePath);
+	let fileName = path.basename(filePath);
 
-    return {directoryPath, fileName};
+	return { directoryPath, fileName };
 };
 
-module.exports.doesFolderExist = (folderPath) => {
-    return fs.existsSync(folderPath);
+module.exports.doesFolderExist = folderPath => {
+	return fs.existsSync(folderPath);
+};
+
+module.exports.getFileName = filePath => {
+	return path.basename(filePath, this.getFileExtension(filePath));
+};
+
+module.exports.getFileExtension = filePath => {
+	return path.extname(filePath);
+};
+
+module.exports.readFile = filePath => {
+	return fs.readFileSync(filePath, {
+		encoding: "UTF8",
+		flag: "r"
+	});
 };

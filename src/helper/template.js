@@ -1,35 +1,107 @@
-'use strict';
-
-const npmHelper = require('./npm');
-
-const TemplateInvalidError = require('../errors/templateInvalidError');
-const TemplateRenderingError = require('../errors/templateRenderingError');
-
-module.exports = options => {
-    if (!options.template) {
-        return;
-    }
-
-    const template = npmHelper.getTemplate(expandTemplateName(options.template));
-
-    if (typeof template !== 'function') {
-		throw new TemplateInvalidError(expandTemplateName(options.template));
-	}
-
-	try {
-		 return template(options);
-	} catch (e) {
-    	throw new TemplateRenderingError(options.template, e);
-	}
-};
+"use strict";
 
 /**
- * Expands the template name into a package name that is then loaded
- * @param templateName
- * The template name provided by the user through input parameter
- * @returns {string}
- * The package name that is then loaded
+ * Gist template identifyer type
+ */
+const TYPE_GIST = "gist";
+/**
+ * Git repository template identifier type
+ */
+const TYPE_REPOSITORY = "repo";
+
+/**
+ * A template type defined by a local file on the system
+ */
+const TYPE_FILE = "file";
+/**
+ * Repository identifier of unklnown type
+ */
+const TYPE_UNKNOWN = "unkn";
+
+/**
+ *
+ * @param {string} templateName - The name of the template selected
+ * @returns {string} The npm package name containing the template string
  */
 function expandTemplateName(templateName) {
-    return `ttt-${templateName}`;
+	return `ttt-${templateName}`;
 }
+
+/**
+ *
+ * @param {string} templateIdentifier - The unique template identifier
+ * @returns {boolean} TRUE if the templateIdentifier describes a gistId, FALSE if not
+ */
+function isGistId(templateIdentifier) {
+	return /^[g|G]:.+$/.test(templateIdentifier);
+}
+
+/**
+ *
+ * @param {string} templateIdentifier - The unique template identifier
+ * @returns {boolean} TRUE if the templateIdentifier describes a git repository, FALSE if not
+ */
+function isRepository(templateIdentifier) {
+	return /^[r|R]:\w+\/\w+$/.test(templateIdentifier);
+}
+
+/**
+ * Determines if the given templateIdentifier denotes a file template or not
+ * @param {string} templateIdentifier - The unique template identifier
+ * @returns {boolean} TRUE if the templateIdentifier denotes a file template, FALSE if not
+ */
+function isFileTemplate(templateIdentifier) {
+	return /^[f|F]:.+$/.test(templateIdentifier);
+}
+
+/**
+ * Extracts the template file path from the file template identifier
+ * @param {string} templateIdentifier 
+ * @returns The file location if a file template identifier given. The input templateIdentifier if not identified as a file template identifier
+ */
+function parseFileTemplate(templateIdentifier) {
+	if (!this.isFileTemplate(templateIdentifier)) {
+		return templateIdentifier;
+	}
+
+	return templateIdentifier.slice(2);
+}
+
+/**
+ *
+ * @param {string} templateIdentifier - The unique template identifier
+ * @returns {string} The gistId contained in the templateIdentifier
+ */
+function parseGistId(templateIdentifier) {
+	if (!this.isGistId(templateIdentifier)) {
+		return templateIdentifier;
+	}
+
+	return templateIdentifier.split(":").pop();
+}
+
+/**
+ *
+ * @param {string} templateIdentifier - The unique template identifier
+ * @returns {string} The repository name contained in the templateIdentifier
+ */
+function parseRepository(templateIdentifier) {
+	if (!this.isRepository(templateIdentifier)) {
+		return templateIdentifier;
+	}
+
+	return templateIdentifier.split(":").pop();
+}
+
+module.exports = {
+	isGistId,
+	isRepository,
+	isFileTemplate,
+	parseGistId,
+	parseRepository,
+	parseFileTemplate,
+	TYPE_GIST,
+	TYPE_REPOSITORY,
+	TYPE_FILE,
+	TYPE_UNKNOWN
+};
