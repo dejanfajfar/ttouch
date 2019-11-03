@@ -7,7 +7,7 @@ const gistError = require("../errors/gistError");
 const apiAddress = "http://api.github.com";
 const gistFileName = "template";
 
-module.exports.getGist = async gistId => {
+async function getGist(gistId) {
 	try {
 		if (gistId === "" || gistId === undefined) {
 			return '';
@@ -35,3 +35,7 @@ module.exports.getGist = async gistId => {
 		throw new gistError(gistId, err);
 	}
 };
+
+module.exports = {
+	getGist
+}

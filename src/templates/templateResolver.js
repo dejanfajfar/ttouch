@@ -3,10 +3,12 @@
 const templateHelper = require("../helper/template");
 const fileSystemHelper = require("../helper/fileSystem");
 const gitHelpers = require("../helper/gitHub");
+const configuration = require("../shared/configuration");
 
 const templateResolvers = {
 	[templateHelper.TYPE_GIST]: resolveGistTemplate,
 	[templateHelper.TYPE_FILE]: resolveFileTemplate,
+	[templateHelper.TYPE_ALIAS]: resolveAliasTemplate,
 	[templateHelper.TYPE_REPOSITORY]: async () => {},
 	[templateHelper.TYPE_UNKNOWN]: async () => {
 		return "UNKNOWN";
@@ -43,6 +45,9 @@ function classifyTemplateIdentifier(templateIdentifier) {
 	if (templateHelper.isFileTemplate(templateIdentifier)) {
 		return templateHelper.TYPE_FILE;
 	}
+	if (templateHelper.isAlias(templateIdentifier)) {
+		return templateIdentifier.TYPE_ALIAS;
+	}
 	return templateHelper.TYPE_UNKNOWN;
 }
 
@@ -58,6 +63,12 @@ async function resolveGistTemplate(templateIdentifier) {
 	let gistText = await gitHelpers.getGist(gistId);
 
 	return gistText;
+}
+
+async function resolveAliasTemplate(templateIdentifier) {
+	let alias = templateHelper.parseAlias(templateIdentifier);
+
+
 }
 
 function resolveFileTemplate(templateIdentifier, onProgress) {
