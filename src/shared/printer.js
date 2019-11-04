@@ -7,7 +7,7 @@ const chalk = require('chalk');
  * @param {string} message - The message to be logged
  */
 function warn(message) {
-	console.log(`${chalk.yellow('WARN:')} ${message}`);
+	console.error(`${chalk.bgYellow.black(' WARN: ')} ${message}`);
 };
 
 /**
@@ -15,19 +15,29 @@ function warn(message) {
  * @param {string} message - The message to log
  */
 function error(message) {
-	console.error(`${chalk.red('ERR:')} ${message}`);
+	console.error(`${chalk.bgRed.bold.black(' ERR: ')} ${message}`);
 };
+
+function errorDetails(message) {
+	if (!global.isVerbose) {
+		return;
+	}
+	console.error(`${chalk.bgRed.bold.black(' ERR: ')} ${message}`);
+}
+
+function debug(message) {
+	if (!global.isVerbose) {
+		return;
+	}
+	console.log(`${chalk.magenta('DBG:')} ${chalk.dim(message)}`);
+}
 
 /**
  * Logs the given message in the warn format
  * @param {string} message - The message to log
  */
 function info(message) {
-	// if the command is not running in verbose mode then do not print
-	if (!global.isVerbose) {
-		return;
-	}
-	console.log(`${chalk.blue('INF:')} ${chalk.grey(message)}`);
+	console.log(`${chalk.blue('INFO:')} ${message}`);
 }
 
 function onDirectoryCreated(directoryPath) {
@@ -35,18 +45,21 @@ function onDirectoryCreated(directoryPath) {
 };
 
 function onFileJobFinished(fileName, destination, template) {
+	let message = `${chalk.green('Created')} ${chalk.ansi256(182)(destination)}/${chalk.bold.ansi256(207)(fileName)}`;
+
 	if (template) {
-		console.log(`${chalk.green('Created')} ${chalk.magenta(fileName)} into ${chalk.grey(destination)} using template ${chalk.bold.cyan(template)}`);
+		message += ` using template ${chalk.bold.cyan(template)}`
 	}
-	else {
-		console.log(`${chalk.green('Created')} ${chalk.magenta(fileName)} into ${chalk.grey(destination)}`);
-	}
+	console.log(message);
+
 }
 
 module.exports = {
 	info,
 	error,
 	warn,
+	debug,
+	errorDetails,
 	onDirectoryCreated,
 	onFileJobFinished
 }

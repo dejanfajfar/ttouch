@@ -79,6 +79,6 @@ module.exports = async parameters => {
 
 		return await doTTouch(context, template);
 	} catch (err) {
-		errorHandler(parameters.isVerbose, err);
+		errorHandler(err);
 	}
 };

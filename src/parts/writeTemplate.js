@@ -1,7 +1,6 @@
 "use strict";
 
 const templateRenderer = require("../templates/templateRenderer");
-const templateResolver = require("../templates/templateResolver");
 const fsHelper = require("../helper/fileSystem");
 const printer = require("../shared/printer");
 
@@ -19,7 +18,7 @@ const printer = require("../shared/printer");
  */
 function renderTemplate(context, templateStore) {
 	if (!context.template) {
-		printer.info("No template found skipping");
+		printer.info("File will be created empty");
 		return '';
 	}
 
@@ -27,11 +26,10 @@ function renderTemplate(context, templateStore) {
 
 	let templateText = templateStore.getTemplate(templateIdentifier);
 
-	printer.info("Rendering Template");
+	printer.debug("Rendering Template");
 	let renderedTemplate = templateRenderer(templateText, context);
-	printer.info("Writing template");
+	printer.debug("Writing template");
 	fsHelper.writeToFile(context.absolutePath, renderedTemplate);
-	printer.info("Done");
 	return renderedTemplate;
 }
 

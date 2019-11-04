@@ -18,10 +18,8 @@ async function resolveTemplates(templateIdentifier, templateStore) {
 	} catch (e){
 		printer.warn(`Template ${templateIdentifier} could not be resolved`);
 		printer.warn(e.message);
-		printer.warn('The files will be created empty!')
-		if(global.isVerbose) {
-			printer.error(e.stack);
-		}
+		printer.errorDetails(e.stack);
+		printer.info('The files will be created empty!')
 	}
 	templateStore.cacheTemplate(templateIdentifier, templateText);
 }
