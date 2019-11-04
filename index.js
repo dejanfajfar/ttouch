@@ -15,11 +15,18 @@ const argv = require("yargs")
 	})
 	.option("gist", {
 		alias: "g",
-		describe: "The gist ID containing the template to be used"
+		describe: "The gist ID containing the template to be used",
+		conflicts: ["file", "alias"]
     })
     .option("file", {
 		alias: "f",
-		describe: "The relative path to the file used as the template"
+		describe: "The relative path to the file used as the template",
+		conflicts: ["gist", "alias"]
+	})
+	.option("alias", {
+		alias: "a",
+		describe: "The alias of the template to be used to populate the file",
+		conflicts: ["file", "gist"]
 	})
 	.demandCommand(1)
 	.help().argv;
@@ -33,6 +40,7 @@ controller({
 	files: argv._,
 	dest: argv.destination,
 	gistId: argv.gist,
+	alias: argv.alias,
 	templateFile: argv.file,
 	isVerbose: argv.verbose,
 	timeStamp: new Date()

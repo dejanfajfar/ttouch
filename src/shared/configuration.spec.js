@@ -1,5 +1,4 @@
 "use strict";
-const rc = require("rc");
 const chai = require("chai");
 const expect = chai.expect;
 const mock = require("mock-require");
@@ -38,6 +37,10 @@ describe("configuration", () => {
 
         it("WHEN hasAlias called with unknown alias THEN false returned", () => {
             expect(configuration.hasAlias("unknownAlias")).to.be.false;
+        });
+
+        it("WHEN hasAlias called with existing alias in wrong case THEN false returned", () => {
+            expect(configuration.hasAlias("TestAlias")).to.be.false;
         });
     });
 });

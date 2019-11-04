@@ -52,11 +52,14 @@ function expandParameters(userParameters, usedTemplate) {
 }
 
 function determineUsedTemplate(userParameters) {
-	if (userParameters.file) {
-		return `f:${userParameters.file}`;
+	if (userParameters.templateFile) {
+		return `f:${userParameters.templateFile}`;
 	}
 	if (userParameters.gist) {
 		return `g:${userParameters.gist}`;
+	}
+	if (userParameters.alias) {
+		return `a:${userParameters.alias}`;
 	}
 
 	let inlineTemplates = userParameters.files
