@@ -5,9 +5,9 @@ const application = require('../../package.json');
 
 const printHeader = () => {
     console.log(
-        chalk.yellow		('┌┬┐┌┬┐┌─┐┬ ┬┌─┐┬ ┬\n') +
-        chalk.yellowBright	(' │  │ │ ││ ││  ├─┤\n') +
-        chalk.grey			(` ┴  ┴ └─┘└─┘└─┘┴ ┴  ver.: ${application.version}`)
+        chalk.ansi256(214)      ('┌┬┐┌┬┐┌─┐┬ ┬┌─┐┬ ┬\n') +
+        chalk.ansi256(221)      (' │  │ │ ││ ││  ├─┤\n') +
+        chalk.ansi256(227)      (` ┴  ┴ └─┘└─┘└─┘┴ ┴  ver.: ${application.version}`)
 		)
 };
 

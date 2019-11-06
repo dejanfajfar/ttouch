@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Template invalid error
 - Template not found error
 
+### Changed
+
+- Verbose output now holds more information about the inner workings of the application
+
 ## [2.0.0]
 ### Added
 
