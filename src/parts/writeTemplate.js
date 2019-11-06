@@ -26,10 +26,11 @@ function renderTemplate(context, templateStore) {
 
 	let templateText = templateStore.getTemplate(templateIdentifier);
 
-	printer.debug("Rendering Template");
 	let renderedTemplate = templateRenderer(templateText, context);
-	printer.debug("Writing template");
+
 	fsHelper.writeToFile(context.absolutePath, renderedTemplate);
+	printer.debug(`Written template to ${context.absolutePath}`);
+
 	return renderedTemplate;
 }
 

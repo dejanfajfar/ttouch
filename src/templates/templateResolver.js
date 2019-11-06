@@ -17,16 +17,19 @@ const templateResolvers = {
 };
 
 /**
- * Resolves a template identifier to a template text
+ * Takes the given template identifier and returns the template text
  * @async
  * @param {string} templateIdentifier - The unique template identifier
  * @returns {string} The template text
  */
 async function resolveTemplate(templateIdentifier) {
+	let startTime = new Date();
 	let resolver =
 		templateResolvers[classifyTemplateIdentifier(templateIdentifier)];
 
 	let templateText = await resolver(templateIdentifier);
+
+	printer.debug(`Resolved template ${templateIdentifier} in ${Date.now() - startTime} milliseconds`);
 
 	return templateText;
 }
@@ -71,6 +74,8 @@ async function resolveAliasTemplate(templateIdentifier) {
 	
 	let resolvedAlias = configuration.getAlias(parsedAlias);
 
+	printer.info(`${templateIdentifier} => ${resolvedAlias}`);
+
 	return await resolveTemplate(resolvedAlias);
 }
 
@@ -78,6 +83,9 @@ function resolveFileTemplate(templateIdentifier, onProgress) {
 	let filePath = templateHelper.parseFileTemplate(templateIdentifier);
 
 	let templateFileAbsolutePath = fileSystemHelper.determineFileAbsolutePathRelativeToCommand(filePath);
+	
+	printer.debug(`Loaded template ${templateIdentifier} from ${templateFileAbsolutePath}`);
+
 	let templateContent = fileSystemHelper.readFile(templateFileAbsolutePath);
 
 	return templateContent;
