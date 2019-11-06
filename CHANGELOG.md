@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Verbose output now holds more information about the inner workings of the application
+- Updated cli output from 16 colors to 256 colors. Should look a little nicer now
 
 ## [2.0.0]
 ### Added

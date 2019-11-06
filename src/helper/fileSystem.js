@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const configuration = require("../shared/configuration");
 
 module.exports.createFile = absolutePath => {
 	fs.writeFileSync(absolutePath, "");
@@ -25,8 +26,8 @@ module.exports.determineDestinationFolder = options => {
 
 module.exports.determineFileAbsolutePathRelativeToCommand = filePath => {
     let baseDir = process.cwd();
-    if (process.env.TTOUCH_HOME) {
-        baseDir = process.env.TTOUCH_HOME
+    if (configuration.getHomeDirectory()) {
+        baseDir = configuration.getHomeDirectory()
     }
 	return this.combinePath(baseDir, filePath);
 };

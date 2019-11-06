@@ -3,6 +3,7 @@
 const AliasError = require("../errors/aliasError");
 
 const configuration = require("rc")("ttouch", {
+    home: process.env.TTOUCH_HOME,
     aliases : {}
 });
 
@@ -27,7 +28,16 @@ function getAlias(alias) {
     return configuration.aliases[alias];
 }
 
+/**
+ * Returns the TTOUCH hone directory
+ * @returns {string} The absolute path to the TTOUCH home directory
+ */
+function getHomeDirectory() {
+    return configuration.home;
+}
+
 module.exports = {
     hasAlias,
-    getAlias
+    getAlias,
+    getHomeDirectory
 }
