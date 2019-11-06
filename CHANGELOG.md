@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - .ttouchrc file support added
 - debug output
 - errorDetails output
+- Added version option 
 
 ### Fixed
 
@@ -24,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Verbose output now holds more information about the inner workings of the application
 - Updated cli output from 16 colors to 256 colors. Should look a little nicer now
+- Additional help text
 
 ## [2.0.0]
 ### Added
