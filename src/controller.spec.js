@@ -34,6 +34,7 @@ describe('controller', () => {
                     expect(item).to.have.ownProperty('isGist');
                     expect(item).to.have.ownProperty('isRepository');
                     expect(item).to.have.ownProperty('isFilePath');
+                    expect(item).to.have.ownProperty('isAlias');
                     expect(item).to.have.ownProperty('name');
                     expect(item).to.have.ownProperty('fullFileName');
                     expect(item).to.have.ownProperty('containingFolder');
@@ -99,7 +100,7 @@ describe('controller', () => {
                     files: ['myText.txt', '../yourText.txt', 'r:userName/repoName'],
                     dest: '.',
                     isVerbose: true,
-                    file: '12345',
+                    templateFile: '12345',
                     timeStamp: new Date('2019-10-02T08:52:48.183Z')
                 };
             });

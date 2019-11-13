@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0]
+### Added
+
+- .ttouchrc file support added
+- debug output
+- errorDetails output
+- Added version option 
+
+### Fixed
+
+- output consistency
+
+### Removed
+
+- Template invalid error
+- Template not found error
+
+### Changed
+
+- Verbose output now holds more information about the inner workings of the application
+- Updated cli output from 16 colors to 256 colors. Should look a little nicer now
+- Additional help text
+
 ## [2.0.0]
 ### Added
 

@@ -14,6 +14,10 @@ const TYPE_REPOSITORY = "repo";
  */
 const TYPE_FILE = "file";
 /**
+ * A template type defined by the alias defined in the .ttouchrc file
+ */
+const TYPE_ALIAS = "alias";
+/**
  * Repository identifier of unklnown type
  */
 const TYPE_UNKNOWN = "unkn";
@@ -25,6 +29,15 @@ const TYPE_UNKNOWN = "unkn";
  */
 function expandTemplateName(templateName) {
 	return `ttt-${templateName}`;
+}
+
+/**
+ * Determines if the given templateIdentifier contains a alias template identifier
+ * @param {string} templateIdentifier - The unique template identifier
+ * @returns {boolean} TRUE if the templateIdentifier describes a alias, FALSE if not
+ */
+function isAlias(templateIdentifier) {
+	return /^[a|A]:.+$/.test(templateIdentifier);
 }
 
 /**
@@ -72,6 +85,19 @@ function parseFileTemplate(templateIdentifier) {
  * @param {string} templateIdentifier - The unique template identifier
  * @returns {string} The gistId contained in the templateIdentifier
  */
+function parseAlias(templateIdentifier) {
+	if (!this.isAlias(templateIdentifier)) {
+		return templateIdentifier;
+	}
+
+	return templateIdentifier.split(":").pop();
+}
+
+/**
+ *
+ * @param {string} templateIdentifier - The unique template identifier
+ * @returns {string} The gistId contained in the templateIdentifier
+ */
 function parseGistId(templateIdentifier) {
 	if (!this.isGistId(templateIdentifier)) {
 		return templateIdentifier;
@@ -97,11 +123,14 @@ module.exports = {
 	isGistId,
 	isRepository,
 	isFileTemplate,
+	isAlias,
 	parseGistId,
 	parseRepository,
 	parseFileTemplate,
+	parseAlias,
 	TYPE_GIST,
 	TYPE_REPOSITORY,
 	TYPE_FILE,
+	TYPE_ALIAS,
 	TYPE_UNKNOWN
 };

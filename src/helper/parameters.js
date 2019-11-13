@@ -47,7 +47,8 @@ module.exports.analyseFileNames = (fileName, index, origin) => {
         ...fileName,
         isGist: templates.isGistId(originalName),
         isRepository: templates.isRepository(originalName),
-        isFilePath: !templates.isGistId(originalName) && !templates.isRepository(originalName) && !templates.isFileTemplate(originalName)
+        isAlias: templates.isAlias(originalName),
+        isFilePath: !templates.isGistId(originalName) && !templates.isRepository(originalName) && !templates.isFileTemplate(originalName) && !templates.isAlias(originalName)
     }
 }
 

@@ -3,10 +3,13 @@
 const templateHelper = require("../helper/template");
 const fileSystemHelper = require("../helper/fileSystem");
 const gitHelpers = require("../helper/gitHub");
+const configuration = require("../shared/configuration");
+const printer = require("../shared/printer");
 
 const templateResolvers = {
 	[templateHelper.TYPE_GIST]: resolveGistTemplate,
 	[templateHelper.TYPE_FILE]: resolveFileTemplate,
+	[templateHelper.TYPE_ALIAS]: resolveAliasTemplate,
 	[templateHelper.TYPE_REPOSITORY]: async () => {},
 	[templateHelper.TYPE_UNKNOWN]: async () => {
 		return "UNKNOWN";
@@ -14,16 +17,19 @@ const templateResolvers = {
 };
 
 /**
- * Resolves a template identifier to a template text
+ * Takes the given template identifier and returns the template text
  * @async
  * @param {string} templateIdentifier - The unique template identifier
  * @returns {string} The template text
  */
 async function resolveTemplate(templateIdentifier) {
+	let startTime = new Date();
 	let resolver =
 		templateResolvers[classifyTemplateIdentifier(templateIdentifier)];
 
 	let templateText = await resolver(templateIdentifier);
+
+	printer.debug(`Resolved template ${templateIdentifier} in ${Date.now() - startTime} milliseconds`);
 
 	return templateText;
 }
@@ -43,6 +49,9 @@ function classifyTemplateIdentifier(templateIdentifier) {
 	if (templateHelper.isFileTemplate(templateIdentifier)) {
 		return templateHelper.TYPE_FILE;
 	}
+	if (templateHelper.isAlias(templateIdentifier)) {
+		return templateHelper.TYPE_ALIAS;
+	}
 	return templateHelper.TYPE_UNKNOWN;
 }
 
@@ -60,10 +69,23 @@ async function resolveGistTemplate(templateIdentifier) {
 	return gistText;
 }
 
+async function resolveAliasTemplate(templateIdentifier) {
+	let parsedAlias = templateHelper.parseAlias(templateIdentifier);
+	
+	let resolvedAlias = configuration.getAlias(parsedAlias);
+
+	printer.info(`${templateIdentifier} => ${resolvedAlias}`);
+
+	return await resolveTemplate(resolvedAlias);
+}
+
 function resolveFileTemplate(templateIdentifier, onProgress) {
 	let filePath = templateHelper.parseFileTemplate(templateIdentifier);
 
 	let templateFileAbsolutePath = fileSystemHelper.determineFileAbsolutePathRelativeToCommand(filePath);
+	
+	printer.debug(`Loaded template ${templateIdentifier} from ${templateFileAbsolutePath}`);
+
 	let templateContent = fileSystemHelper.readFile(templateFileAbsolutePath);
 
 	return templateContent;
